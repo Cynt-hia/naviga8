@@ -44,12 +44,15 @@ app.use(express.static(path.join(__dirname, "public")));
 // API Routes
 app.post("/save-route", async (req, res) => {
   const { origin, destination } = req.body;
-  if (!origin || !destination)
+  
+  // Input validation
+  if (!origin?.trim() || !destination?.trim()) {
     return res.status(400).json({ msg: "Origin and destination required" });
+  }
 
   try {
-    const originObj = typeof origin === "string" ? { address: origin } : origin;
-    const destinationObj = typeof destination === "string" ? { address: destination } : destination;
+    const originObj = typeof origin === "string" ? { address: origin.trim() } : origin;
+    const destinationObj = typeof destination === "string" ? { address: destination.trim() } : destination;
 
     const newRoute = new Route({
       origin: originObj,
@@ -90,6 +93,7 @@ app.get("/api/google-key", (req, res) => {
   res.json({ key });
 });
 
+// Root route
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "map.html"));
 });
@@ -97,5 +101,3 @@ app.get("/", (req, res) => {
 // Start Server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-
-
