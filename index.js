@@ -1,7 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
-require("dotenv").config();
 
 const app = express();
 
@@ -19,7 +18,7 @@ app.use((req, res, next) => {
 });
 
 // MongoDB Connection
-const mongoURI = process.env.MONGODB_URI || process.env.MONGO_URI;
+const mongoURI = process.env.MONGODB_URI;
 
 mongoose.connect(mongoURI)
   .then(() => console.log("MongoDB Connected ✅"))
