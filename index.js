@@ -18,7 +18,7 @@ app.use((req, res, next) => {
 });
 
 // MongoDB Connection
-const mongoURI = process.env.MONGODB_URI;
+const mongoURI = process.env.MONGODB_URI || "mongodb://localhost:27017/naviga8";
 
 mongoose.connect(mongoURI)
   .then(() => console.log("MongoDB Connected ✅"))
@@ -93,3 +93,4 @@ app.get("/api/google-key", (req, res) => {
 // Start Server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
