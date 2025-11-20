@@ -41,18 +41,15 @@ const Route = mongoose.model("Route", routeSchema);
 // Serve static files FIRST
 app.use(express.static(path.join(__dirname, "public")));
 
-// API Routes
+// API Routes - BACK TO ORIGINAL WORKING VERSION
 app.post("/save-route", async (req, res) => {
   const { origin, destination } = req.body;
-  
-  // Input validation
-  if (!origin?.trim() || !destination?.trim()) {
+  if (!origin || !destination)
     return res.status(400).json({ msg: "Origin and destination required" });
-  }
 
   try {
-    const originObj = typeof origin === "string" ? { address: origin.trim() } : origin;
-    const destinationObj = typeof destination === "string" ? { address: destination.trim() } : destination;
+    const originObj = typeof origin === "string" ? { address: origin } : origin;
+    const destinationObj = typeof destination === "string" ? { address: destination } : destination;
 
     const newRoute = new Route({
       origin: originObj,
