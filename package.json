@@ -1,0 +1,22 @@
+{
+  "name": "naviga8",
+  "version": "1.0.0",
+  "description": "Navigation app for SIWES project",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "keywords": ["navigation", "maps", "siwes"],
+  "author": "Your Name",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "mongoose": "^8.19.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

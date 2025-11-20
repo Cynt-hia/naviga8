@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" class="transition-colors">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Saved Routes - naviga8</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100 min-h-screen flex flex-col items-center">
+    <nav
+      class="w-full px-6 py-3 flex justify-between items-center bg-white shadow"
+    >
+      <p class="text-2xl font-bold font-sans px-6 py-2">naviga8</p>
+      <button
+        id="backToMapBtn"
+        class="bg-green-800 rounded-lg text-white text-[18px] px-6 py-2 hover:bg-green-700 transition-colors duration-300 font-bold font-serif"
+      >
+        Back to Map
+      </button>
+    </nav>
+
+    <div class="text-center mt-12 px-4 max-w-[800px] w-full">
+      <h1 class="font-sans font-bold text-4xl mb-6">Saved Routes</h1>
+      <div id="routesList" class="flex flex-col gap-4"></div>
+    </div>
+
+    <script>
+      document.getElementById("backToMapBtn").addEventListener("click", () => {
+        window.location.href = "map.html";
+      });
+
+      async function fetchSavedRoutes() {
+        try {
+          const res = await fetch("/routes");
+          if (!res.ok) throw new Error("Failed to fetch routes");
+
+          const routes = await res.json();
+          const routesList = document.getElementById("routesList");
+          routesList.innerHTML = "";
+
+          if (!Array.isArray(routes) || routes.length === 0) {
+            routesList.innerHTML = "<p>No saved routes yet.</p>";
+            return;
+          }
+
+          routes.forEach((route) => {
+            const id = route._id || route.id || "";
+            const origin = route.origin?.address || "";
+            const destination = route.destination?.address || "";
+
+            const div = document.createElement("div");
+            div.className =
+              "bg-white p-4 rounded shadow flex justify-between items-center";
+            div.innerHTML = `
+              <div>
+                <p><strong>Origin:</strong> ${escapeHtml(origin)}</p>
+                <p><strong>Destination:</strong> ${escapeHtml(destination)}</p>
+              </div>
+              <div class="flex gap-2">
+                <button class="bg-red-800 hover:bg-red-700 text-white px-4 py-2 rounded deleteBtn" data-id="${id}">
+                  Delete
+                </button>
+                <button class="bg-green-800 hover:bg-green-700 text-white px-4 py-2 rounded viewBtn"
+                  data-origin="${encodeURIComponent(origin)}" 
+                  data-destination="${encodeURIComponent(destination)}">
+                  View on Map
+                </button>
+              </div>
+            `;
+            routesList.appendChild(div);
+          });
+
+          // Delete route
+          document.querySelectorAll(".deleteBtn").forEach((btn) => {
+            btn.addEventListener("click", async (e) => {
+              const id = e.currentTarget.dataset.id;
+              if (!id) return;
+              try {
+                const res = await fetch(`/delete-route/${id}`, {
+                  method: "DELETE",
+                });
+                if (!res.ok) console.error("Delete failed", res.statusText);
+                fetchSavedRoutes();
+              } catch (err) {
+                console.error(err);
+              }
+            });
+          });
+
+          // View on map — preserve route & directions
+          document.querySelectorAll(".viewBtn").forEach((btn) => {
+            btn.addEventListener("click", (e) => {
+              const origin = decodeURIComponent(
+                e.currentTarget.dataset.origin || ""
+              );
+              const destination = decodeURIComponent(
+                e.currentTarget.dataset.destination || ""
+              );
+              sessionStorage.setItem("returnOrigin", origin);
+              sessionStorage.setItem("returnDestination", destination);
+              sessionStorage.setItem("hadRoute", "true");
+              window.location.href = "map.html"; // map.html will load map dynamically
+            });
+          });
+        } catch (err) {
+          console.error(err);
+          document.getElementById("routesList").innerHTML =
+            "<p>Error loading saved routes.</p>";
+        }
+      }
+
+      function escapeHtml(text) {
+        if (!text) return "";
+        return text
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      }
+
+      fetchSavedRoutes();
+    </script>
+  </body>
+</html>
