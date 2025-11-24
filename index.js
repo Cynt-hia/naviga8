@@ -41,28 +41,46 @@ const Route = mongoose.model("Route", routeSchema);
 // Serve static files FIRST
 app.use(express.static(path.join(__dirname, "public")));
 
-// API Routes - BACK TO ORIGINAL WORKING VERSION
+// API Routes
+
+// Save a route with duplicate check
 app.post("/save-route", async (req, res) => {
   const { origin, destination } = req.body;
+  
+  // Input validation
   if (!origin || !destination)
     return res.status(400).json({ msg: "Origin and destination required" });
 
   try {
-    const originObj = typeof origin === "string" ? { address: origin } : origin;
-    const destinationObj = typeof destination === "string" ? { address: destination } : destination;
+    const originObj = typeof origin === "string" ? { address: origin.trim() } : origin;
+    const destinationObj = typeof destination === "string" ? { address: destination.trim() } : destination;
 
+    // Check if route already exists
+    const existingRoute = await Route.findOne({
+      "origin.address": originObj.address,
+      "destination.address": destinationObj.address
+    });
+
+    if (existingRoute) {
+      return res.status(409).json({ msg: "This route is already saved!" });
+    }
+
+    // Save new route
     const newRoute = new Route({
       origin: originObj,
       destination: destinationObj,
     });
+    
     const savedRoute = await newRoute.save();
     res.json(savedRoute);
+    
   } catch (err) {
     console.error(err);
     res.status(500).json({ msg: "Failed to save route" });
   }
 });
 
+// Get all saved routes
 app.get("/routes", async (req, res) => {
   try {
     const routes = await Route.find().sort({ createdAt: -1 });
@@ -73,6 +91,7 @@ app.get("/routes", async (req, res) => {
   }
 });
 
+// Delete a route
 app.delete("/delete-route/:id", async (req, res) => {
   try {
     const deleted = await Route.findByIdAndDelete(req.params.id);
@@ -84,13 +103,14 @@ app.delete("/delete-route/:id", async (req, res) => {
   }
 });
 
+// Get Google Maps API key
 app.get("/api/google-key", (req, res) => {
   const key = process.env.GOOGLE_MAPS_API_KEY;
   if (!key) return res.status(500).json({ msg: "API key not configured" });
   res.json({ key });
 });
 
-// Root route
+// Root route - serve the map page
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "map.html"));
 });
