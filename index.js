@@ -116,6 +116,11 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "map.html"));
 });
 
+// Serve saved-routes page
+app.get("/saved-routes.html", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "saved-routes.html"));
+});
+
 // Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
