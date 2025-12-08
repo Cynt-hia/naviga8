@@ -1,50 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="transition-colors">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Saved Routes - naviga8</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-      /* Dark Mode Colors */
-      .dark-bg {
-        background-color: #111827;
-        color: #f9fafb;
-      }
-      .dark-card {
-        background-color: #1f2937;
-      }
-      .dark-text {
-        color: #f9fafb;
-      }
-      .dark-subtle {
-        color: #d1d5db;
-      }
-    </style>
   </head>
   <body class="bg-gray-100 min-h-screen flex flex-col items-center">
     <!-- NAVIGATION -->
     <nav
-      class="w-full px-4 sm:px-6 py-4 flex justify-between items-center bg-white shadow-lg"
+      class="w-full px-4 sm:px-6 py-4 flex justify-between items-center bg-white shadow"
     >
       <p class="text-xl sm:text-2xl font-bold font-sans px-4 sm:px-6 py-3">naviga8</p>
-      <div class="flex items-center gap-3">
-        <!-- DARK MODE TOGGLE -->
-        <button
-          id="darkModeToggle"
-          class="rounded-full p-3 bg-gray-100 hover:bg-gray-200 transition-colors"
-          title="Toggle dark mode"
-        >
-          <span id="darkModeIcon" class="text-xl">🌙</span>
-        </button>
-        <!-- BACK TO MAP BUTTON -->
-        <button
-          id="backToMapBtn"
-          class="bg-green-700 rounded-lg text-white text-sm sm:text-[18px] px-7 py-3 hover:bg-green-800 transition-colors font-bold font-serif"
-        >
-          Back to Map
-        </button>
-      </div>
+      <button
+        id="backToMapBtn"
+        class="bg-green-800 rounded-lg text-white text-sm sm:text-[18px] px-7 py-3 hover:bg-green-700 transition-colors duration-300 font-bold font-serif"
+      >
+        Back to Map
+      </button>
     </nav>
 
     <!-- MAIN CONTENT -->
@@ -55,61 +28,6 @@
     </div>
 
 <script>
-// ====== SIMPLE DARK MODE ======
-const darkModeToggle = document.getElementById("darkModeToggle");
-const darkModeIcon = document.getElementById("darkModeIcon");
-
-// Check saved preference from map.html
-const isDarkMode = localStorage.getItem("naviga8_darkMode") === "true";
-
-if (isDarkMode) {
-  // Apply dark mode
-  document.body.classList.remove("bg-gray-100");
-  document.body.classList.add("dark-bg");
-  document.querySelector('nav').classList.remove("bg-white");
-  document.querySelector('nav').classList.add("dark-card");
-  document.querySelector('h1').classList.add("dark-text");
-  darkModeIcon.textContent = "☀️";
-  
-  // Update loading message
-  document.getElementById("loadingMessage").classList.remove("text-gray-600");
-  document.getElementById("loadingMessage").classList.add("dark-subtle");
-}
-
-// Toggle dark mode
-darkModeToggle.addEventListener("click", () => {
-  const isDark = !document.body.classList.contains("dark-bg");
-  
-  if (isDark) {
-    // Enable dark mode
-    document.body.classList.remove("bg-gray-100");
-    document.body.classList.add("dark-bg");
-    document.querySelector('nav').classList.remove("bg-white");
-    document.querySelector('nav').classList.add("dark-card");
-    document.querySelector('h1').classList.add("dark-text");
-    darkModeIcon.textContent = "☀️";
-    
-    // Update loading message
-    document.getElementById("loadingMessage").classList.remove("text-gray-600");
-    document.getElementById("loadingMessage").classList.add("dark-subtle");
-    
-  } else {
-    // Disable dark mode
-    document.body.classList.remove("dark-bg");
-    document.body.classList.add("bg-gray-100");
-    document.querySelector('nav').classList.remove("dark-card");
-    document.querySelector('nav').classList.add("bg-white");
-    document.querySelector('h1').classList.remove("dark-text");
-    darkModeIcon.textContent = "🌙";
-    
-    // Update loading message
-    document.getElementById("loadingMessage").classList.remove("dark-subtle");
-    document.getElementById("loadingMessage").classList.add("text-gray-600");
-  }
-  
-  localStorage.setItem("naviga8_darkMode", isDark);
-});
-
 // ====== USER ID ======
 let userId = localStorage.getItem("naviga8_userId");
 
@@ -171,10 +89,10 @@ async function fetchSavedRoutes() {
                     <p class="break-words"><strong>Destination:</strong> ${escapeHtml(destination)}</p>
                 </div>
                 <div class="flex gap-2 flex-wrap">
-                    <button class="bg-red-700 text-white px-5 py-3 rounded deleteBtn text-sm sm:text-base hover:bg-red-800 transition-colors" data-id="${id}">
+                    <button class="bg-red-800 hover:bg-red-700 text-white px-5 py-3 rounded deleteBtn text-sm sm:text-base" data-id="${id}">
                         Delete
                     </button>
-                    <button class="bg-green-700 text-white px-5 py-3 rounded viewBtn text-sm sm:text-base hover:bg-green-800 transition-colors"
+                    <button class="bg-green-800 hover:bg-green-700 text-white px-5 py-3 rounded viewBtn text-sm sm:text-base"
                         data-origin="${encodeURIComponent(origin)}" 
                         data-destination="${encodeURIComponent(destination)}">
                         View on Map
@@ -237,9 +155,7 @@ function escapeHtml(text) {
 }
 
 // Load routes when page loads
-document.addEventListener("DOMContentLoaded", () => {
-    fetchSavedRoutes();
-});
+fetchSavedRoutes();
 </script>
   </body>
 </html>
