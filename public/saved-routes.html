@@ -48,6 +48,18 @@ async function getOrCreateUserId() {
     }
 }
 
+// ====== SAFE DECODE FUNCTION ======
+function safeDecode(str) {
+    if (!str) return "";
+    try {
+        const decoded = decodeURIComponent(str);
+        // Remove any HTML tags to prevent XSS
+        return decoded.replace(/[<>]/g, '');
+    } catch {
+        return "";
+    }
+}
+
 // ====== PAGE FUNCTIONS ======
 document.getElementById("backToMapBtn").addEventListener("click", () => {
     window.location.href = "map.html";
@@ -126,8 +138,8 @@ async function fetchSavedRoutes() {
         // View on map
         document.querySelectorAll(".viewBtn").forEach((btn) => {
             btn.addEventListener("click", (e) => {
-                const origin = decodeURIComponent(e.currentTarget.dataset.origin || "");
-                const destination = decodeURIComponent(e.currentTarget.dataset.destination || "");
+                const origin = safeDecode(e.currentTarget.dataset.origin || "");
+                const destination = safeDecode(e.currentTarget.dataset.destination || "");
                 sessionStorage.setItem("returnOrigin", origin);
                 sessionStorage.setItem("returnDestination", destination);
                 sessionStorage.setItem("hadRoute", "true");
