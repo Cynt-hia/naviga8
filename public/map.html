@@ -31,11 +31,11 @@
   <body
     class="bg-[url('./bg-lines.svg')] min-h-screen flex flex-col items-center"
   >
-    <nav class="w-full px-4 py-3 flex justify-between items-center">
-      <p class="text-xl sm:text-2xl font-bold font-sans px-4 sm:px-6 py-2">naviga8</p>
+    <nav class="w-full px-4 py-4 flex justify-between items-center">
+      <p class="text-xl sm:text-2xl font-bold font-sans px-4 sm:px-6 py-3">naviga8</p>
       <button
         id="getStartedBtn"
-        class="rounded-lg text-white text-sm sm:text-[18px] px-4 sm:px-6 py-2 bg-green-800 hover:bg-green-700 transition-colors duration-300 font-bold font-serif"
+        class="rounded-lg text-white text-sm sm:text-[18px] px-6 py-3 bg-green-800 hover:bg-green-700 transition-colors duration-300 font-bold font-serif"
       >
         Get started for free!
       </button>
@@ -58,17 +58,17 @@
       <div class="flex justify-center gap-4 mb-12 sm:mb-24 flex-wrap">
         <button
           id="exploreMapBtn"
-          class="bg-green-800 rounded-lg text-white text-sm sm:text-[18px] px-4 sm:px-6 py-2 hover:bg-green-700 transition-colors duration-300 font-bold font-serif"
+          class="bg-green-800 rounded-lg text-white text-sm sm:text-[18px] px-8 py-3 hover:bg-green-700 transition-colors duration-300 font-bold font-serif"
         >
           Explore App Below
         </button>
       </div>
 
       <div class="bg-gray-200 p-4 sm:p-8 rounded-lg max-w-[1200px] mx-auto mb-12 sm:mb-24 w-full">
-        <div class="flex justify-start mb-4 sm:mb-6">
+        <div class="flex justify-start mb-6 sm:mb-8">
           <button
             id="viewSavedRoutesBtn"
-            class="bg-green-800 rounded-lg text-white text-sm sm:text-[18px] px-4 sm:px-6 py-2 hover:bg-green-700 transition-colors duration-300 font-bold font-serif"
+            class="bg-green-800 rounded-lg text-white text-sm sm:text-[18px] px-6 py-3 hover:bg-green-700 transition-colors duration-300 font-bold font-serif"
           >
             View Saved Routes
           </button>
@@ -95,21 +95,21 @@
           <div class="flex gap-2 sm:gap-4 button-group w-full sm:w-auto">
             <button
               id="getRoutesBtn"
-              class="bg-green-800 rounded-lg text-white text-sm sm:text-[18px] px-4 py-2 hover:bg-green-700 transition-colors duration-300 font-bold font-serif flex-1"
+              class="bg-green-800 rounded-lg text-white text-sm sm:text-[18px] px-6 py-3 hover:bg-green-700 transition-colors duration-300 font-bold font-serif flex-1"
             >
               Get Routes
             </button>
 
             <button
               id="saveRouteBtn"
-              class="bg-green-800 rounded-lg text-white text-sm sm:text-[18px] px-4 py-2 hover:bg-green-700 transition-colors duration-300 font-bold font-serif flex items-center gap-1 flex-1"
+              class="bg-green-800 rounded-lg text-white text-sm sm:text-[18px] px-6 py-3 hover:bg-green-700 transition-colors duration-300 font-bold font-serif flex items-center gap-1 flex-1"
             >
               Save Route
             </button>
 
             <button
               id="clearBtn"
-              class="text-red-600 font-bold hover:underline px-3 sm:px-4 py-2 rounded border border-red-600 text-sm sm:text-base flex-1"
+              class="text-red-600 font-bold hover:underline px-4 py-3 rounded border border-red-600 text-sm sm:text-base flex-1"
             >
               🗑 Clear
             </button>
@@ -125,7 +125,7 @@
       </div>
     </div>
 
-  <script>
+<script>
 // ====== USER ID ======
 let userId = localStorage.getItem("naviga8_userId");
 
@@ -356,4 +356,3 @@ async function loadGoogleMaps() {
 </script>
   </body>
 </html>
-
