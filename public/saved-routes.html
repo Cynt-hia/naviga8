@@ -25,110 +25,124 @@
       <div id="routesList" class="flex flex-col gap-4"></div>
     </div>
 
-    <script>
-      document.getElementById("backToMapBtn").addEventListener("click", () => {
-        window.location.href = "map.html";
-      });
+<script>
+// ====== USER ID ======
+let userId = localStorage.getItem("naviga8_userId");
 
-      async function fetchSavedRoutes() {
+async function getOrCreateUserId() {
+    if (userId) return userId;
+    try {
+        const res = await fetch("/api/user-id");
+        if (!res.ok) throw new Error("Failed to get user ID");
+        const data = await res.json();
+        userId = data.userId;
+        localStorage.setItem("naviga8_userId", userId);
+        return userId;
+    } catch (err) {
+        console.error("User ID error:", err);
+        userId = Math.random().toString(36).substr(2, 9) + Date.now().toString(36);
+        localStorage.setItem("naviga8_userId", userId);
+        return userId;
+    }
+}
+
+// ====== PAGE FUNCTIONS ======
+document.getElementById("backToMapBtn").addEventListener("click", () => {
+    window.location.href = "map.html";
+});
+
+async function fetchSavedRoutes() {
+    try {
+        const currentUserId = await getOrCreateUserId();
+        const res = await fetch(`/routes?userId=${encodeURIComponent(currentUserId)}`);
+        if (!res.ok) throw new Error("Failed to fetch routes");
+
+        const routes = await res.json();
         const routesList = document.getElementById("routesList");
-        const loadingMessage = document.getElementById("loadingMessage");
-        
-        try {
-          const res = await fetch("/routes");
-          if (!res.ok) throw new Error("Failed to fetch routes");
+        routesList.innerHTML = "";
 
-          const routes = await res.json();
-          routesList.innerHTML = "";
-          loadingMessage.style.display = "none";
-
-          if (!Array.isArray(routes) || routes.length === 0) {
-            routesList.innerHTML = "<p class='text-gray-600 text-center py-8'>No saved routes yet.</p>";
+        if (!Array.isArray(routes) || routes.length === 0) {
+            routesList.innerHTML = "<p>No saved routes yet.</p>";
             return;
-          }
+        }
 
-          routes.forEach((route) => {
+        routes.forEach((route) => {
             const id = route._id || route.id || "";
             const origin = route.origin?.address || "";
             const destination = route.destination?.address || "";
 
             const div = document.createElement("div");
-            div.className =
-              "bg-white p-4 rounded shadow flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4";
+            div.className = "bg-white p-4 rounded shadow flex justify-between items-center";
             div.innerHTML = `
-              <div class="flex-1">
-                <p class="break-words"><strong>Origin:</strong> ${escapeHtml(origin)}</p>
-                <p class="break-words"><strong>Destination:</strong> ${escapeHtml(destination)}</p>
-              </div>
-              <div class="flex gap-2 flex-wrap">
-                <button class="bg-red-800 hover:bg-red-700 text-white px-3 sm:px-4 py-2 rounded deleteBtn text-sm sm:text-base" data-id="${id}">
-                  Delete
-                </button>
-                <button class="bg-green-800 hover:bg-green-700 text-white px-3 sm:px-4 py-2 rounded viewBtn text-sm sm:text-base"
-                  data-origin="${encodeURIComponent(origin)}" 
-                  data-destination="${encodeURIComponent(destination)}">
-                  View on Map
-                </button>
-              </div>
+                <div>
+                    <p><strong>Origin:</strong> ${escapeHtml(origin)}</p>
+                    <p><strong>Destination:</strong> ${escapeHtml(destination)}</p>
+                </div>
+                <div class="flex gap-2">
+                    <button class="bg-red-800 hover:bg-red-700 text-white px-4 py-2 rounded deleteBtn" data-id="${id}">
+                        Delete
+                    </button>
+                    <button class="bg-green-800 hover:bg-green-700 text-white px-4 py-2 rounded viewBtn"
+                        data-origin="${encodeURIComponent(origin)}" 
+                        data-destination="${encodeURIComponent(destination)}">
+                        View on Map
+                    </button>
+                </div>
             `;
             routesList.appendChild(div);
-          });
+        });
 
-          // Delete route
-          document.querySelectorAll(".deleteBtn").forEach((btn) => {
+        // Delete route
+        document.querySelectorAll(".deleteBtn").forEach((btn) => {
             btn.addEventListener("click", async (e) => {
-              const id = e.currentTarget.dataset.id;
-              if (!id) return;
-              
-              if (!confirm("Are you sure you want to delete this route?")) return;
-              
-              try {
-                const res = await fetch(`/delete-route/${id}`, {
-                  method: "DELETE",
-                });
-                if (!res.ok) console.error("Delete failed", res.statusText);
-                fetchSavedRoutes();
-              } catch (err) {
-                console.error(err);
-                alert("Failed to delete route");
-              }
+                const id = e.currentTarget.dataset.id;
+                if (!id) return;
+                
+                if (!confirm("Are you sure you want to delete this route?")) return;
+                
+                try {
+                    const currentUserId = await getOrCreateUserId();
+                    const res = await fetch(`/delete-route/${id}?userId=${encodeURIComponent(currentUserId)}`, {
+                        method: "DELETE",
+                    });
+                    if (!res.ok) console.error("Delete failed", res.statusText);
+                    fetchSavedRoutes();
+                } catch (err) {
+                    console.error(err);
+                }
             });
-          });
+        });
 
-          // View on map — preserve route & directions
-          document.querySelectorAll(".viewBtn").forEach((btn) => {
+        // View on map
+        document.querySelectorAll(".viewBtn").forEach((btn) => {
             btn.addEventListener("click", (e) => {
-              const origin = decodeURIComponent(
-                e.currentTarget.dataset.origin || ""
-              );
-              const destination = decodeURIComponent(
-                e.currentTarget.dataset.destination || ""
-              );
-              sessionStorage.setItem("returnOrigin", origin);
-              sessionStorage.setItem("returnDestination", destination);
-              sessionStorage.setItem("hadRoute", "true");
-              window.location.href = "map.html";
+                const origin = decodeURIComponent(e.currentTarget.dataset.origin || "");
+                const destination = decodeURIComponent(e.currentTarget.dataset.destination || "");
+                sessionStorage.setItem("returnOrigin", origin);
+                sessionStorage.setItem("returnDestination", destination);
+                sessionStorage.setItem("hadRoute", "true");
+                window.location.href = "map.html";
             });
-          });
-        } catch (err) {
-          console.error(err);
-          loadingMessage.style.display = "none";
-          routesList.innerHTML = "<p class='text-red-600 text-center py-8'>Error loading saved routes. Please try again.</p>";
-        }
-      }
+        });
+    } catch (err) {
+        console.error(err);
+        document.getElementById("routesList").innerHTML = "<p>Error loading saved routes.</p>";
+    }
+}
 
-      function escapeHtml(text) {
-        if (!text) return "";
-        return text
-          .replace(/&/g, "&amp;")
-          .replace(/</g, "&lt;")
-          .replace(/>/g, "&gt;")
-          .replace(/"/g, "&quot;")
-          .replace(/'/g, "&#039;");
-      }
+function escapeHtml(text) {
+    if (!text) return "";
+    return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
 
-      fetchSavedRoutes();
-    </script>
+fetchSavedRoutes();
+</script>
   </body>
 </html>
+
 
