@@ -125,248 +125,235 @@
       </div>
     </div>
 
-    <script>
-      let map;
-      let directionsService;
-      let directionsRenderer;
+  <script>
+// ====== USER ID ======
+let userId = localStorage.getItem("naviga8_userId");
 
-      function saveInputsLocally() {
-        localStorage.setItem(
-          "lastOrigin",
-          document.getElementById("origin").value
-        );
-        localStorage.setItem(
-          "lastDestination",
-          document.getElementById("destination").value
-        );
-      }
+async function getOrCreateUserId() {
+    if (userId) return userId;
+    try {
+        const res = await fetch("/api/user-id");
+        if (!res.ok) throw new Error("Failed to get user ID");
+        const data = await res.json();
+        userId = data.userId;
+        localStorage.setItem("naviga8_userId", userId);
+        return userId;
+    } catch (err) {
+        console.error("User ID error:", err);
+        userId = Math.random().toString(36).substr(2, 9) + Date.now().toString(36);
+        localStorage.setItem("naviga8_userId", userId);
+        return userId;
+    }
+}
 
-      function loadInputs() {
-        const o = localStorage.getItem("lastOrigin");
-        const d = localStorage.getItem("lastDestination");
-        if (o) document.getElementById("origin").value = o;
-        if (d) document.getElementById("destination").value = d;
-      }
+// ====== MAP FUNCTIONS ======
+let map;
+let directionsService;
+let directionsRenderer;
 
-      function initMap() {
-        if (map) return; // prevent reinitializing
+function saveInputsLocally() {
+    localStorage.setItem("lastOrigin", document.getElementById("origin").value);
+    localStorage.setItem("lastDestination", document.getElementById("destination").value);
+}
 
-        const defaultCenter = { lat: 6.866687, lng: 7.411784 };
-        const savedCenter =
-          JSON.parse(sessionStorage.getItem("MAP_CENTER")) || defaultCenter;
-        const savedZoom = parseInt(sessionStorage.getItem("MAP_ZOOM")) || 17;
-        const savedType = sessionStorage.getItem("MAP_TYPE") || "roadmap";
+function loadInputs() {
+    const o = localStorage.getItem("lastOrigin");
+    const d = localStorage.getItem("lastDestination");
+    if (o) document.getElementById("origin").value = o;
+    if (d) document.getElementById("destination").value = d;
+}
 
-        map = new google.maps.Map(document.getElementById("map"), {
-          center: savedCenter,
-          zoom: savedZoom,
-          mapTypeId: savedType,
-        });
+function initMap() {
+    if (map) return;
 
-        new google.maps.Marker({
-          position: defaultCenter,
-          map: map,
-          title: "My School",
-        });
+    const defaultCenter = { lat: 6.866687, lng: 7.411784 };
+    const savedCenter = JSON.parse(sessionStorage.getItem("MAP_CENTER")) || defaultCenter;
+    const savedZoom = parseInt(sessionStorage.getItem("MAP_ZOOM")) || 17;
+    const savedType = sessionStorage.getItem("MAP_TYPE") || "roadmap";
 
-        if (!directionsRenderer) {
-          directionsService = new google.maps.DirectionsService();
-          directionsRenderer = new google.maps.DirectionsRenderer();
-          directionsRenderer.setMap(map);
-        }
+    map = new google.maps.Map(document.getElementById("map"), {
+        center: savedCenter,
+        zoom: savedZoom,
+        mapTypeId: savedType,
+    });
 
-        loadInputs();
+    new google.maps.Marker({
+        position: defaultCenter,
+        map: map,
+        title: "My School",
+    });
 
-        const returnOrigin = sessionStorage.getItem("returnOrigin");
-        const returnDestination = sessionStorage.getItem("returnDestination");
-        const hadRoute = sessionStorage.getItem("hadRoute");
+    if (!directionsRenderer) {
+        directionsService = new google.maps.DirectionsService();
+        directionsRenderer = new google.maps.DirectionsRenderer();
+        directionsRenderer.setMap(map);
+    }
 
-        if (hadRoute && returnOrigin && returnDestination) {
-          document.getElementById("origin").value = returnOrigin;
-          document.getElementById("destination").value = returnDestination;
-          calculateRoute(returnOrigin, returnDestination);
-          sessionStorage.removeItem("returnOrigin");
-          sessionStorage.removeItem("returnDestination");
-          sessionStorage.removeItem("hadRoute");
-        }
+    loadInputs();
 
-        loadRouteFromURL();
+    const returnOrigin = sessionStorage.getItem("returnOrigin");
+    const returnDestination = sessionStorage.getItem("returnDestination");
+    const hadRoute = sessionStorage.getItem("hadRoute");
 
-        // Save map state when user changes it
-        map.addListener("center_changed", () => {
-          sessionStorage.setItem(
-            "MAP_CENTER",
-            JSON.stringify(map.getCenter().toJSON())
-          );
-        });
-        map.addListener("zoom_changed", () => {
-          sessionStorage.setItem("MAP_ZOOM", map.getZoom());
-        });
-        map.addListener("maptypeid_changed", () => {
-          sessionStorage.setItem("MAP_TYPE", map.getMapTypeId());
-        });
-      }
+    if (hadRoute && returnOrigin && returnDestination) {
+        document.getElementById("origin").value = returnOrigin;
+        document.getElementById("destination").value = returnDestination;
+        calculateRoute(returnOrigin, returnDestination);
+        sessionStorage.removeItem("returnOrigin");
+        sessionStorage.removeItem("returnDestination");
+        sessionStorage.removeItem("hadRoute");
+    }
 
-      function calculateRoute(originVal, destinationVal) {
-        const origin = originVal || document.getElementById("origin").value;
-        const destination =
-          destinationVal || document.getElementById("destination").value;
+    loadRouteFromURL();
 
-        if (!origin || !destination)
-          return alert("Enter both origin and destination");
-        if (!directionsService || !directionsRenderer)
-          return alert("Map is not ready yet");
+    map.addListener("center_changed", () => {
+        sessionStorage.setItem("MAP_CENTER", JSON.stringify(map.getCenter().toJSON()));
+    });
+    map.addListener("zoom_changed", () => {
+        sessionStorage.setItem("MAP_ZOOM", map.getZoom());
+    });
+    map.addListener("maptypeid_changed", () => {
+        sessionStorage.setItem("MAP_TYPE", map.getMapTypeId());
+    });
+}
 
-        directionsService.route(
-          { origin, destination, travelMode: "DRIVING" },
-          (result, status) => {
+function calculateRoute(originVal, destinationVal) {
+    const origin = originVal || document.getElementById("origin").value;
+    const destination = destinationVal || document.getElementById("destination").value;
+
+    if (!origin || !destination)
+        return alert("Enter both origin and destination");
+    if (!directionsService || !directionsRenderer)
+        return alert("Map is not ready yet");
+
+    directionsService.route(
+        { origin, destination, travelMode: "DRIVING" },
+        (result, status) => {
             if (status === "OK") {
-              directionsRenderer.setDirections(result);
-              saveInputsLocally();
+                directionsRenderer.setDirections(result);
+                saveInputsLocally();
             } else {
-              alert("Route not found: " + status);
+                alert("Route not found: " + status);
             }
-          }
-        );
-      }
-
-      function loadRouteFromURL() {
-        const params = new URLSearchParams(window.location.search);
-        const o = params.get("origin");
-        const d = params.get("destination");
-        if (o && d) {
-          document.getElementById("origin").value = o;
-          document.getElementById("destination").value = d;
-          calculateRoute(o, d);
         }
-      }
+    );
+}
 
-      document.addEventListener("DOMContentLoaded", () => {
-        // Make Get Started button scroll to map
-        document.getElementById("getStartedBtn").addEventListener("click", () => {
-          document.getElementById("map").scrollIntoView({ 
-            behavior: "smooth" 
-          });
-        });
+function loadRouteFromURL() {
+    const params = new URLSearchParams(window.location.search);
+    const o = params.get("origin");
+    const d = params.get("destination");
+    if (o && d) {
+        document.getElementById("origin").value = o;
+        document.getElementById("destination").value = d;
+        calculateRoute(o, d);
+    }
+}
 
-        document
-          .getElementById("getRoutesBtn")
-          .addEventListener("click", () => calculateRoute());
+document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("getStartedBtn").addEventListener("click", () => {
+        document.getElementById("map").scrollIntoView({ behavior: "smooth" });
+    });
 
-        document
-          .getElementById("saveRouteBtn")
-          .addEventListener("click", async (e) => {
-            const btn = e.currentTarget;
-            const origin = document.getElementById("origin").value.trim();
-            const destination = document
-              .getElementById("destination")
-              .value.trim();
-            if (!origin || !destination)
-              return alert("Enter both origin and destination!");
+    document.getElementById("getRoutesBtn").addEventListener("click", () => calculateRoute());
 
-            btn.disabled = true;
-            const originalText = btn.innerHTML;
-            btn.innerHTML = "Saving...";
+    document.getElementById("saveRouteBtn").addEventListener("click", async (e) => {
+        const btn = e.currentTarget;
+        const origin = document.getElementById("origin").value.trim();
+        const destination = document.getElementById("destination").value.trim();
+        if (!origin || !destination)
+            return alert("Enter both origin and destination!");
 
-            try {
-              const res = await fetch("/save-route", {
+        btn.disabled = true;
+        const originalText = btn.innerHTML;
+        btn.innerHTML = "Saving...";
+
+        try {
+            const currentUserId = await getOrCreateUserId();
+            const res = await fetch("/save-route", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                  origin: { address: origin },
-                  destination: { address: destination },
+                    userId: currentUserId,
+                    origin: { address: origin },
+                    destination: { address: destination },
                 }),
-              });
+            });
 
-              if (res.ok) {
+            if (res.ok) {
                 btn.innerHTML = "Saved ✔";
                 setTimeout(() => {
-                  btn.disabled = false;
-                  btn.innerHTML = originalText;
+                    btn.disabled = false;
+                    btn.innerHTML = originalText;
                 }, 1500);
-              } else {
+            } else {
                 const err = await res.json().catch(() => ({}));
                 alert("Could not save: " + (err.msg || res.statusText));
                 btn.disabled = false;
                 btn.innerHTML = originalText;
-              }
-            } catch (err) {
-              console.error(err);
-              alert("Network error saving route");
-              btn.disabled = false;
-              btn.innerHTML = originalText;
             }
-          });
-
-        document
-          .getElementById("viewSavedRoutesBtn")
-          .addEventListener("click", () => {
-            sessionStorage.setItem(
-              "returnOrigin",
-              document.getElementById("origin").value
-            );
-            sessionStorage.setItem(
-              "returnDestination",
-              document.getElementById("destination").value
-            );
-            sessionStorage.setItem("hadRoute", "true");
-            window.location.href = "saved-routes.html";
-          });
-
-        document
-          .getElementById("exploreMapBtn")
-          .addEventListener("click", () => {
-            window.scrollTo({
-              top: document.getElementById("map").offsetTop,
-              behavior: "smooth",
-            });
-          });
-
-        document.getElementById("clearBtn").addEventListener("click", () => {
-          document.getElementById("origin").value = "";
-          document.getElementById("destination").value = "";
-          if (directionsRenderer?.setDirections)
-            directionsRenderer.setDirections({ routes: [] });
-          localStorage.removeItem("lastOrigin");
-          localStorage.removeItem("lastDestination");
-        });
-
-        // Load Google Maps with key from backend
-        loadGoogleMaps();
-      });
-
-      async function loadGoogleMaps() {
-        if (window.google && window.google.maps) {
-          initMap();
-          return;
+        } catch (err) {
+            console.error(err);
+            alert("Network error saving route");
+            btn.disabled = false;
+            btn.innerHTML = originalText;
         }
+    });
 
-        let key = sessionStorage.getItem("GOOGLE_MAPS_KEY");
-        if (!key) {
-          try {
+    document.getElementById("viewSavedRoutesBtn").addEventListener("click", () => {
+        sessionStorage.setItem("returnOrigin", document.getElementById("origin").value);
+        sessionStorage.setItem("returnDestination", document.getElementById("destination").value);
+        sessionStorage.setItem("hadRoute", "true");
+        window.location.href = "saved-routes.html";
+    });
+
+    document.getElementById("exploreMapBtn").addEventListener("click", () => {
+        window.scrollTo({
+            top: document.getElementById("map").offsetTop,
+            behavior: "smooth"
+        });
+    });
+
+    document.getElementById("clearBtn").addEventListener("click", () => {
+        document.getElementById("origin").value = "";
+        document.getElementById("destination").value = "";
+        if (directionsRenderer?.setDirections)
+            directionsRenderer.setDirections({ routes: [] });
+        localStorage.removeItem("lastOrigin");
+        localStorage.removeItem("lastDestination");
+    });
+
+    loadGoogleMaps();
+});
+
+async function loadGoogleMaps() {
+    if (window.google && window.google.maps) {
+        initMap();
+        return;
+    }
+
+    let key = sessionStorage.getItem("GOOGLE_MAPS_KEY");
+    if (!key) {
+        try {
             const res = await fetch("/api/google-key");
             if (!res.ok) throw new Error("Failed to get key");
             const data = await res.json();
             key = data.key;
             sessionStorage.setItem("GOOGLE_MAPS_KEY", key);
-          } catch (err) {
+        } catch (err) {
             console.error("Google Maps load error:", err);
-            document.getElementById("map").innerHTML = 
-              "<div class='text-center p-8'><p class='text-red-600'>Map failed to load. Please check your connection.</p></div>";
+            document.getElementById("map").innerText = "Map failed to load.";
             return;
-          }
         }
+    }
 
-        const script = document.createElement("script");
-        script.src = `https://maps.googleapis.com/maps/api/js?key=${key}&callback=initMap`;
-        script.async = true;
-        script.defer = true;
-        script.onerror = () => {
-          document.getElementById("map").innerHTML = 
-            "<div class='text-center p-8'><p class='text-red-600'>Failed to load Google Maps. Please refresh the page.</p></div>";
-        };
-        document.head.appendChild(script);
-      }
-    </script>
+    const script = document.createElement("script");
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${key}&callback=initMap`;
+    script.async = true;
+    script.defer = true;
+    document.head.appendChild(script);
+}
+</script>
   </body>
 </html>
+
