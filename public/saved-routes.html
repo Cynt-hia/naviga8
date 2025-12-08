@@ -1,11 +1,4 @@
 <!DOCTYPE html>
-<html lang="en" class="transition-colors">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Saved Routes - naviga8</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style><!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -13,22 +6,19 @@
     <title>Saved Routes - naviga8</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-      /* Simple Dark Mode */
-      body.dark {
+      /* Dark Mode Colors */
+      .dark-bg {
         background-color: #111827;
         color: #f9fafb;
       }
-      body.dark .bg-white {
+      .dark-card {
         background-color: #1f2937;
       }
-      body.dark .text-gray-600 {
+      .dark-text {
+        color: #f9fafb;
+      }
+      .dark-subtle {
         color: #d1d5db;
-      }
-      body.dark .text-red-600 {
-        color: #ef4444;
-      }
-      body.dark .bg-gray-100 {
-        background-color: #111827;
       }
     </style>
   </head>
@@ -69,17 +59,54 @@
 const darkModeToggle = document.getElementById("darkModeToggle");
 const darkModeIcon = document.getElementById("darkModeIcon");
 
-// Check saved preference
-if (localStorage.getItem("naviga8_darkMode") === "true") {
-  document.body.classList.add("dark");
+// Check saved preference from map.html
+const isDarkMode = localStorage.getItem("naviga8_darkMode") === "true";
+
+if (isDarkMode) {
+  // Apply dark mode
+  document.body.classList.remove("bg-gray-100");
+  document.body.classList.add("dark-bg");
+  document.querySelector('nav').classList.remove("bg-white");
+  document.querySelector('nav').classList.add("dark-card");
+  document.querySelector('h1').classList.add("dark-text");
   darkModeIcon.textContent = "☀️";
+  
+  // Update loading message
+  document.getElementById("loadingMessage").classList.remove("text-gray-600");
+  document.getElementById("loadingMessage").classList.add("dark-subtle");
 }
 
 // Toggle dark mode
 darkModeToggle.addEventListener("click", () => {
-  document.body.classList.toggle("dark");
-  const isDark = document.body.classList.contains("dark");
-  darkModeIcon.textContent = isDark ? "☀️" : "🌙";
+  const isDark = !document.body.classList.contains("dark-bg");
+  
+  if (isDark) {
+    // Enable dark mode
+    document.body.classList.remove("bg-gray-100");
+    document.body.classList.add("dark-bg");
+    document.querySelector('nav').classList.remove("bg-white");
+    document.querySelector('nav').classList.add("dark-card");
+    document.querySelector('h1').classList.add("dark-text");
+    darkModeIcon.textContent = "☀️";
+    
+    // Update loading message
+    document.getElementById("loadingMessage").classList.remove("text-gray-600");
+    document.getElementById("loadingMessage").classList.add("dark-subtle");
+    
+  } else {
+    // Disable dark mode
+    document.body.classList.remove("dark-bg");
+    document.body.classList.add("bg-gray-100");
+    document.querySelector('nav').classList.remove("dark-card");
+    document.querySelector('nav').classList.add("bg-white");
+    document.querySelector('h1').classList.remove("dark-text");
+    darkModeIcon.textContent = "🌙";
+    
+    // Update loading message
+    document.getElementById("loadingMessage").classList.remove("dark-subtle");
+    document.getElementById("loadingMessage").classList.add("text-gray-600");
+  }
+  
   localStorage.setItem("naviga8_darkMode", isDark);
 });
 
@@ -216,215 +243,3 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
   </body>
 </html>
-      /* Dark mode styles */
-      .dark-mode {
-        background-color: #0f172a;
-        color: #f1f5f9;
-      }
-      .dark-mode .bg-white {
-        background-color: #1e293b;
-      }
-      .dark-mode .text-gray-600 {
-        color: #cbd5e1;
-      }
-      .dark-mode .text-red-600 {
-        color: #f87171;
-      }
-      .dark-mode .bg-gray-100 {
-        background-color: #0f172a;
-      }
-      .dark-mode .shadow {
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
-      }
-    </style>
-  </head>
-  <body class="bg-gray-100 min-h-screen flex flex-col items-center transition-colors duration-300">
-    <!-- NAVIGATION -->
-    <nav
-      class="w-full px-4 sm:px-6 py-4 flex justify-between items-center bg-white shadow-lg transition-colors duration-300"
-    >
-      <p class="text-xl sm:text-2xl font-bold font-sans px-4 sm:px-6 py-3">naviga8</p>
-      <div class="flex items-center gap-3">
-        <!-- DARK MODE TOGGLE -->
-        <button
-          id="darkModeToggle"
-          class="rounded-full p-2 bg-gray-200 hover:bg-gray-300 transition-colors duration-300"
-          title="Toggle dark mode"
-        >
-          <span id="darkModeIcon" class="text-lg">🌙</span>
-        </button>
-        <!-- BACK TO MAP BUTTON -->
-        <button
-          id="backToMapBtn"
-          class="bg-gradient-to-r from-green-700 to-green-800 rounded-lg text-white text-sm sm:text-[18px] px-7 py-3 hover:from-green-600 hover:to-green-700 transition-all duration-300 font-bold font-serif shadow-md hover:shadow-lg"
-        >
-          Back to Map
-        </button>
-      </div>
-    </nav>
-
-    <!-- MAIN CONTENT -->
-    <div class="text-center mt-8 sm:mt-12 px-4 max-w-[800px] w-full">
-      <h1 class="font-sans font-bold text-2xl sm:text-4xl mb-6">Saved Routes</h1>
-      <div id="loadingMessage" class="text-gray-600 mb-4">Loading routes...</div>
-      <div id="routesList" class="flex flex-col gap-4"></div>
-    </div>
-
-<script>
-// ====== DARK MODE ======
-function initDarkMode() {
-  const darkModeToggle = document.getElementById("darkModeToggle");
-  const darkModeIcon = document.getElementById("darkModeIcon");
-  
-  // Check saved preference
-  const isDarkMode = localStorage.getItem("naviga8_darkMode") === "true";
-  
-  if (isDarkMode) {
-    document.body.classList.add("dark-mode");
-    darkModeIcon.textContent = "☀️";
-  }
-  
-  // Toggle dark mode
-  darkModeToggle.addEventListener("click", () => {
-    document.body.classList.toggle("dark-mode");
-    const isDark = document.body.classList.contains("dark-mode");
-    darkModeIcon.textContent = isDark ? "☀️" : "🌙";
-    localStorage.setItem("naviga8_darkMode", isDark);
-  });
-}
-
-// ====== USER ID ======
-let userId = localStorage.getItem("naviga8_userId");
-
-async function getOrCreateUserId() {
-    if (userId) return userId;
-    try {
-        const res = await fetch("/api/user-id");
-        if (!res.ok) throw new Error("Failed to get user ID");
-        const data = await res.json();
-        userId = data.userId;
-        localStorage.setItem("naviga8_userId", userId);
-        return userId;
-    } catch (err) {
-        console.error("User ID error:", err);
-        userId = Math.random().toString(36).substr(2, 9) + Date.now().toString(36);
-        localStorage.setItem("naviga8_userId", userId);
-        return userId;
-    }
-}
-
-// ====== PAGE FUNCTIONS ======
-document.getElementById("backToMapBtn").addEventListener("click", () => {
-    window.location.href = "map.html";
-});
-
-async function fetchSavedRoutes() {
-    const routesList = document.getElementById("routesList");
-    const loadingMessage = document.getElementById("loadingMessage");
-    
-    try {
-        const currentUserId = await getOrCreateUserId();
-        const res = await fetch(`/routes?userId=${encodeURIComponent(currentUserId)}`);
-        if (!res.ok) throw new Error("Failed to fetch routes");
-
-        const routes = await res.json();
-        
-        // Hide loading message
-        if (loadingMessage) {
-            loadingMessage.style.display = "none";
-        }
-        
-        routesList.innerHTML = "";
-
-        if (!Array.isArray(routes) || routes.length === 0) {
-            routesList.innerHTML = "<p class='text-gray-600 dark:text-gray-300 text-center py-8'>No saved routes yet.</p>";
-            return;
-        }
-
-        routes.forEach((route) => {
-            const id = route._id || route.id || "";
-            const origin = route.origin?.address || "";
-            const destination = route.destination?.address || "";
-
-            const div = document.createElement("div");
-            div.className = "bg-white dark:bg-gray-800 p-4 rounded shadow flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 transition-colors duration-300";
-            div.innerHTML = `
-                <div class="flex-1">
-                    <p class="break-words text-gray-800 dark:text-gray-200"><strong>Origin:</strong> ${escapeHtml(origin)}</p>
-                    <p class="break-words text-gray-800 dark:text-gray-200"><strong>Destination:</strong> ${escapeHtml(destination)}</p>
-                </div>
-                <div class="flex gap-2 flex-wrap">
-                    <button class="bg-gradient-to-r from-red-700 to-red-800 hover:from-red-600 hover:to-red-700 text-white px-5 py-3 rounded deleteBtn text-sm sm:text-base shadow transition-all duration-300" data-id="${id}">
-                        Delete
-                    </button>
-                    <button class="bg-gradient-to-r from-green-700 to-green-800 hover:from-green-600 hover:to-green-700 text-white px-5 py-3 rounded viewBtn text-sm sm:text-base shadow transition-all duration-300"
-                        data-origin="${encodeURIComponent(origin)}" 
-                        data-destination="${encodeURIComponent(destination)}">
-                        View on Map
-                    </button>
-                </div>
-            `;
-            routesList.appendChild(div);
-        });
-
-        // Delete route
-        document.querySelectorAll(".deleteBtn").forEach((btn) => {
-            btn.addEventListener("click", async (e) => {
-                const id = e.currentTarget.dataset.id;
-                if (!id) return;
-                
-                if (!confirm("Are you sure you want to delete this route?")) return;
-                
-                try {
-                    const currentUserId = await getOrCreateUserId();
-                    const res = await fetch(`/delete-route/${id}?userId=${encodeURIComponent(currentUserId)}`, {
-                        method: "DELETE",
-                    });
-                    if (!res.ok) console.error("Delete failed", res.statusText);
-                    fetchSavedRoutes();
-                } catch (err) {
-                    console.error(err);
-                }
-            });
-        });
-
-        // View on map
-        document.querySelectorAll(".viewBtn").forEach((btn) => {
-            btn.addEventListener("click", (e) => {
-                const origin = decodeURIComponent(e.currentTarget.dataset.origin || "");
-                const destination = decodeURIComponent(e.currentTarget.dataset.destination || "");
-                sessionStorage.setItem("returnOrigin", origin);
-                sessionStorage.setItem("returnDestination", destination);
-                sessionStorage.setItem("hadRoute", "true");
-                window.location.href = "map.html";
-            });
-        });
-    } catch (err) {
-        console.error(err);
-        // Hide loading message on error too
-        if (loadingMessage) {
-            loadingMessage.style.display = "none";
-        }
-        routesList.innerHTML = "<p class='text-red-600 dark:text-red-400 text-center py-8'>Error loading saved routes. Please try again.</p>";
-    }
-}
-
-function escapeHtml(text) {
-    if (!text) return "";
-    return text
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-}
-
-// Initialize dark mode
-document.addEventListener("DOMContentLoaded", () => {
-    initDarkMode();
-    fetchSavedRoutes();
-});
-</script>
-  </body>
-</html>
-
