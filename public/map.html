@@ -6,6 +6,102 @@
     <title>naviga8</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+      :root {
+        --bg-light: #ffffff;
+        --bg-dark: #111827;
+        --card-light: #ffffff;
+        --card-dark: #1f2937;
+        --text-light: #111827;
+        --text-dark: #f9fafb;
+        --border-light: #e5e7eb;
+        --border-dark: #374151;
+        --input-bg-light: #ffffff;
+        --input-bg-dark: #374151;
+        --map-bg-light: #f3f4f6;
+        --map-bg-dark: #030712;
+      }
+      
+      /* Light mode background animation */
+      .bg-animated-grid {
+        background: 
+          linear-gradient(90deg, #f0f9ff 1px, transparent 1px) 0 0 / 40px 40px,
+          linear-gradient(#f0f9ff 1px, transparent 1px) 0 0 / 40px 40px,
+          var(--bg-light);
+        animation: gridMove 80s linear infinite;
+      }
+      
+      /* Dark mode background animation */
+      .dark-mode .bg-animated-grid {
+        background: 
+          linear-gradient(90deg, rgba(30, 41, 59, 0.5) 1px, transparent 1px) 0 0 / 40px 40px,
+          linear-gradient(rgba(30, 41, 59, 0.5) 1px, transparent 1px) 0 0 / 40px 40px,
+          var(--bg-dark);
+        animation: gridMove 80s linear infinite;
+      }
+      
+      /* Dark mode classes */
+      .dark-mode body {
+        background-color: var(--bg-dark);
+        color: var(--text-dark);
+      }
+      
+      .dark-mode .nav-light {
+        background-color: var(--card-dark);
+        border-bottom: 1px solid var(--border-dark);
+      }
+      
+      .dark-mode .card-light {
+        background-color: var(--card-dark);
+        border-color: var(--border-dark);
+        color: var(--text-dark);
+      }
+      
+      .dark-mode input {
+        background-color: var(--input-bg-dark);
+        border-color: var(--border-dark);
+        color: var(--text-dark);
+      }
+      
+      .dark-mode input::placeholder {
+        color: #9ca3af;
+      }
+      
+      .dark-mode input:focus {
+        border-color: #10b981;
+        background-color: var(--input-bg-dark);
+        color: var(--text-dark);
+      }
+      
+      .dark-mode #map {
+        background-color: var(--map-bg-dark);
+      }
+      
+      .dark-mode #mapLoading {
+        background-color: var(--map-bg-dark);
+        color: var(--text-dark);
+      }
+      
+      .dark-mode .text-gray-600 {
+        color: #9ca3af;
+      }
+      
+      .dark-mode .bg-green-50 {
+        background-color: #064e3b;
+      }
+      
+      .dark-mode .border-green-200 {
+        border-color: #047857;
+      }
+      
+      .dark-mode .text-green-800 {
+        color: #a7f3d0;
+      }
+      
+      .dark-mode .bg-white {
+        background-color: #1f2937 !important;
+        color: var(--text-dark);
+      }
+
       /* Custom responsive fixes */
       @media (max-width: 768px) {
         .input-group {
@@ -26,22 +122,15 @@
           min-width: 120px;
         }
       }
+      
       /* Loading spinner animation */
       .loading-spinner {
         animation: spin 1s linear infinite;
       }
+      
       @keyframes spin {
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
-      }
-      
-      /* Animated background */
-      .bg-animated-grid {
-        background: 
-          linear-gradient(90deg, #f0f9ff 1px, transparent 1px) 0 0 / 40px 40px,
-          linear-gradient(#f0f9ff 1px, transparent 1px) 0 0 / 40px 40px,
-          #ffffff;
-        animation: gridMove 80s linear infinite;
       }
       
       @keyframes gridMove {
@@ -58,30 +147,47 @@
         from { opacity: 0; transform: translateY(10px); }
         to { opacity: 1; transform: translateY(0); }
       }
+      
+      /* Dark mode transition */
+      .dark-transition {
+        transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+      }
     </style>
   </head>
-  <body class="bg-animated-grid min-h-screen flex flex-col items-center">
+  <body class="bg-animated-grid min-h-screen flex flex-col items-center dark-transition">
     <!-- NAVIGATION -->
-    <nav class="w-full px-4 py-4 flex justify-between items-center">
+    <nav class="w-full px-4 py-4 flex justify-between items-center nav-light dark-transition">
       <p class="text-xl sm:text-2xl font-bold font-sans px-4 sm:px-6 py-3">naviga8</p>
-      <button
-        id="getStartedBtn"
-        class="rounded-lg text-white text-sm sm:text-[18px] px-7 py-3 bg-green-700 hover:bg-green-800 transition-colors font-bold font-serif"
-      >
-        Get started for free!
-      </button>
+      <div class="flex gap-3 items-center">
+        <!-- DARK MODE TOGGLE -->
+        <button
+          id="darkModeToggle"
+          class="p-2 rounded-full bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 transition-colors"
+          title="Toggle dark mode"
+        >
+          <span id="darkIcon" class="hidden">🌙</span>
+          <span id="lightIcon">☀️</span>
+        </button>
+        
+        <button
+          id="getStartedBtn"
+          class="rounded-lg text-white text-sm sm:text-[18px] px-7 py-3 bg-green-700 hover:bg-green-800 transition-colors font-bold font-serif"
+        >
+          Get started for free!
+        </button>
+      </div>
     </nav>
 
     <!-- HERO SECTION -->
     <div class="text-center mt-8 sm:mt-12 px-4 w-full">
       <h1
-        class="font-sans font-bold tracking-tighter leading-[1.1] text-black max-w-[1100px] mx-auto text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[100px] fade-in"
+        class="font-sans font-bold tracking-tighter leading-[1.1] text-black dark:text-white max-w-[1100px] mx-auto text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[100px] fade-in"
       >
         Find Your Way with Seamless <br class="hidden sm:block" />Navigation
       </h1>
 
       <p
-        class="text-gray-600 font-medium text-base sm:text-lg md:text-xl max-w-[800px] mx-auto mt-4 sm:mt-6 mb-6 sm:mb-8 fade-in"
+        class="text-gray-600 dark:text-gray-300 font-medium text-base sm:text-lg md:text-xl max-w-[800px] mx-auto mt-4 sm:mt-6 mb-6 sm:mb-8 fade-in"
       >
         Discover locations, search for places, and get accurate directions with
         our intuitive map app. Simplify your journeys like never before.
@@ -98,8 +204,8 @@
       </div>
 
       <!-- MAP CONTAINER -->
-      <div class="bg-white p-4 sm:p-8 rounded-lg max-w-[1200px] mx-auto mb-12 sm:mb-24 w-full shadow-xl border border-gray-200">
-        <!-- VIEW SAVED ROUTES BUTTON -->
+      <div class="bg-white dark:bg-gray-800 p-4 sm:p-8 rounded-lg max-w-[1200px] mx-auto mb-12 sm:mb-24 w-full shadow-xl border border-gray-200 dark:border-gray-700 card-light dark-transition">
+        <!-- TOP BUTTONS -->
         <div class="flex justify-between mb-6 sm:mb-8">
           <button
             id="viewSavedRoutesBtn"
@@ -113,19 +219,19 @@
         <div class="flex gap-3 sm:gap-4 flex-wrap items-start">
           <div class="flex gap-2 flex-1 input-group">
             <div class="flex gap-2 flex-1 w-full">
-              <span class="text-gray-700 text-xl">📍</span>
+              <span class="text-gray-700 dark:text-gray-300 text-xl">📍</span>
               <input
                 id="origin"
                 placeholder="Enter origin (address, city, landmark)"
-                class="flex-1 px-3 sm:px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm sm:text-base"
+                class="flex-1 px-3 sm:px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm sm:text-base dark-transition"
               />
             </div>
             <div class="flex gap-2 flex-1 w-full">
-              <span class="text-gray-700 text-xl">📍</span>
+              <span class="text-gray-700 dark:text-gray-300 text-xl">📍</span>
               <input
                 id="destination"
                 placeholder="Enter destination (address, city, landmark)"
-                class="flex-1 px-3 sm:px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm sm:text-base"
+                class="flex-1 px-3 sm:px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm sm:text-base dark-transition"
               />
             </div>
           </div>
@@ -147,7 +253,7 @@
 
             <button
               id="clearBtn"
-              class="text-red-600 font-bold hover:underline px-5 py-3 rounded-lg border border-red-600 hover:bg-red-50 text-sm sm:text-base flex-1 transition-colors transform hover:scale-105 transition-transform"
+              class="text-red-600 dark:text-red-400 font-bold hover:underline px-5 py-3 rounded-lg border border-red-600 dark:border-red-400 hover:bg-red-50 dark:hover:bg-red-900 text-sm sm:text-base flex-1 transition-colors transform hover:scale-105 transition-transform"
             >
               🗑️ Clear
             </button>
@@ -155,18 +261,18 @@
         </div>
 
         <!-- ROUTE DETAILS -->
-        <div id="routeDetails" class="hidden mt-6 p-4 bg-green-50 rounded-lg border border-green-200 fade-in">
-          <h3 class="font-bold text-lg mb-3 text-green-800">Route Details</h3>
+        <div id="routeDetails" class="hidden mt-6 p-4 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800 fade-in">
+          <h3 class="font-bold text-lg mb-3 text-green-800 dark:text-green-300">Route Details</h3>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div class="text-center p-3 bg-white rounded shadow">
+            <div class="text-center p-3 bg-white dark:bg-gray-700 rounded shadow dark-transition">
               <div class="text-2xl mb-2">📏</div>
-              <p class="font-bold text-gray-800 text-xl" id="distanceText">--</p>
-              <p class="text-sm text-gray-600">Distance</p>
+              <p class="font-bold text-gray-800 dark:text-white text-xl" id="distanceText">--</p>
+              <p class="text-sm text-gray-600 dark:text-gray-300">Distance</p>
             </div>
-            <div class="text-center p-3 bg-white rounded shadow">
+            <div class="text-center p-3 bg-white dark:bg-gray-700 rounded shadow dark-transition">
               <div class="text-2xl mb-2">⏱️</div>
-              <p class="font-bold text-gray-800 text-xl" id="durationText">--</p>
-              <p class="text-sm text-gray-600">Duration</p>
+              <p class="font-bold text-gray-800 dark:text-white text-xl" id="durationText">--</p>
+              <p class="text-sm text-gray-600 dark:text-gray-300">Duration</p>
             </div>
           </div>
         </div>
@@ -174,14 +280,14 @@
         <!-- MAP DISPLAY WITH LOADING -->
         <div
           id="map"
-          class="mt-6 sm:mt-8 w-full h-[300px] sm:h-[400px] md:h-[500px] bg-gray-100 rounded-lg border border-gray-300 relative overflow-hidden"
+          class="mt-6 sm:mt-8 w-full h-[300px] sm:h-[400px] md:h-[500px] bg-gray-100 dark:bg-gray-900 rounded-lg border border-gray-300 dark:border-gray-700 relative overflow-hidden"
         >
           <!-- LOADING SPINNER -->
-          <div id="mapLoading" class="absolute inset-0 flex items-center justify-center bg-gray-100">
+          <div id="mapLoading" class="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-900">
             <div class="text-center">
-              <div class="inline-block loading-spinner rounded-full h-12 w-12 border-4 border-green-600 border-t-transparent"></div>
-              <p class="mt-4 text-gray-700 font-medium">Loading map...</p>
-              <p class="text-sm text-gray-500 mt-1">Powered by Google Maps</p>
+              <div class="inline-block loading-spinner rounded-full h-12 w-12 border-4 border-green-600 dark:border-green-400 border-t-transparent"></div>
+              <p class="mt-4 text-gray-700 dark:text-gray-300 font-medium">Loading map...</p>
+              <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Powered by Google Maps</p>
             </div>
           </div>
           <!-- ACTUAL MAP CONTAINER (HIDDEN INITIALLY) -->
@@ -191,6 +297,29 @@
     </div>
 
 <script>
+// ====== DARK MODE ======
+function initDarkMode() {
+    const isDark = localStorage.getItem('naviga8_darkMode') === 'true';
+    if (isDark) {
+        document.documentElement.classList.add('dark-mode');
+        document.getElementById('darkIcon').classList.remove('hidden');
+        document.getElementById('lightIcon').classList.add('hidden');
+    }
+    
+    document.getElementById('darkModeToggle').addEventListener('click', () => {
+        const isDark = document.documentElement.classList.toggle('dark-mode');
+        localStorage.setItem('naviga8_darkMode', isDark);
+        
+        if (isDark) {
+            document.getElementById('darkIcon').classList.remove('hidden');
+            document.getElementById('lightIcon').classList.add('hidden');
+        } else {
+            document.getElementById('darkIcon').classList.add('hidden');
+            document.getElementById('lightIcon').classList.remove('hidden');
+        }
+    });
+}
+
 // ====== USER ID ======
 let userId = localStorage.getItem("naviga8_userId");
 
@@ -238,14 +367,17 @@ function initMap() {
     const savedType = sessionStorage.getItem("MAP_TYPE") || "roadmap";
 
     // Create map in the mapContainer (not directly in #map)
-    map = new google.maps.Map(document.getElementById("mapContainer"), {
+    const mapOptions = {
         center: savedCenter,
         zoom: savedZoom,
         mapTypeId: savedType,
         mapTypeControl: true,
         streetViewControl: true,
         fullscreenControl: true,
-    });
+        styles: getMapStyles() // Apply dark mode styles to map
+    };
+
+    map = new google.maps.Map(document.getElementById("mapContainer"), mapOptions);
 
     new google.maps.Marker({
         position: defaultCenter,
@@ -315,6 +447,95 @@ function initMap() {
     map.addListener("maptypeid_changed", () => {
         sessionStorage.setItem("MAP_TYPE", map.getMapTypeId());
     });
+}
+
+function getMapStyles() {
+    const isDark = document.documentElement.classList.contains('dark-mode');
+    
+    if (isDark) {
+        return [
+            { elementType: "geometry", stylers: [{ color: "#242f3e" }] },
+            { elementType: "labels.text.stroke", stylers: [{ color: "#242f3e" }] },
+            { elementType: "labels.text.fill", stylers: [{ color: "#746855" }] },
+            {
+                featureType: "administrative.locality",
+                elementType: "labels.text.fill",
+                stylers: [{ color: "#d59563" }]
+            },
+            {
+                featureType: "poi",
+                elementType: "labels.text.fill",
+                stylers: [{ color: "#d59563" }]
+            },
+            {
+                featureType: "poi.park",
+                elementType: "geometry",
+                stylers: [{ color: "#263c3f" }]
+            },
+            {
+                featureType: "poi.park",
+                elementType: "labels.text.fill",
+                stylers: [{ color: "#6b9a76" }]
+            },
+            {
+                featureType: "road",
+                elementType: "geometry",
+                stylers: [{ color: "#38414e" }]
+            },
+            {
+                featureType: "road",
+                elementType: "geometry.stroke",
+                stylers: [{ color: "#212a37" }]
+            },
+            {
+                featureType: "road",
+                elementType: "labels.text.fill",
+                stylers: [{ color: "#9ca5b3" }]
+            },
+            {
+                featureType: "road.highway",
+                elementType: "geometry",
+                stylers: [{ color: "#746855" }]
+            },
+            {
+                featureType: "road.highway",
+                elementType: "geometry.stroke",
+                stylers: [{ color: "#1f2835" }]
+            },
+            {
+                featureType: "road.highway",
+                elementType: "labels.text.fill",
+                stylers: [{ color: "#f3d19c" }]
+            },
+            {
+                featureType: "transit",
+                elementType: "geometry",
+                stylers: [{ color: "#2f3948" }]
+            },
+            {
+                featureType: "transit.station",
+                elementType: "labels.text.fill",
+                stylers: [{ color: "#d59563" }]
+            },
+            {
+                featureType: "water",
+                elementType: "geometry",
+                stylers: [{ color: "#17263c" }]
+            },
+            {
+                featureType: "water",
+                elementType: "labels.text.fill",
+                stylers: [{ color: "#515c6d" }]
+            },
+            {
+                featureType: "water",
+                elementType: "labels.text.stroke",
+                stylers: [{ color: "#17263c" }]
+            }
+        ];
+    }
+    
+    return []; // Default light mode
 }
 
 function calculateRoute(originVal, destinationVal) {
@@ -388,6 +609,8 @@ function loadRouteFromURL() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+    initDarkMode();
+    
     document.getElementById("getStartedBtn").addEventListener("click", () => {
         document.getElementById("map").scrollIntoView({ behavior: "smooth" });
     });
@@ -474,33 +697,4 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 async function loadGoogleMaps() {
-    if (window.google && window.google.maps) {
-        initMap();
-        return;
-    }
-
-    let key = sessionStorage.getItem("GOOGLE_MAPS_KEY");
-    if (!key) {
-        try {
-            const res = await fetch("/api/google-key");
-            if (!res.ok) throw new Error("Failed to get key");
-            const data = await res.json();
-            key = data.key;
-            sessionStorage.setItem("GOOGLE_MAPS_KEY", key);
-        } catch (err) {
-            console.error("Google Maps load error:", err);
-            document.getElementById("mapLoading").innerHTML = 
-                '<div class="text-center p-8"><p class="text-red-600">Map failed to load. Please check your connection.</p></div>';
-            return;
-        }
-    }
-
-    const script = document.createElement("script");
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${key}&libraries=places&callback=initMap`;
-    script.async = true;
-    script.defer = true;
-    document.head.appendChild(script);
-}
-</script>
-  </body>
-</html>
+    if (window.google && window.google.maps
