@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="transition-colors">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -34,49 +34,20 @@
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
       }
-      /* Dark Mode Colors */
-      .dark-bg {
-        background-color: #111827;
-      }
-      .dark-text {
-        color: #f9fafb;
-      }
-      .dark-input {
-        background-color: #374151;
-        color: #f9fafb;
-        border-color: #4b5563;
-      }
-      .dark-card {
-        background-color: #1f2937;
-      }
-      .dark-subtle {
-        color: #d1d5db;
-      }
     </style>
   </head>
   <body
-    class="min-h-screen flex flex-col items-center bg-[url('./bg-lines.svg')]"
+    class="bg-[url('./bg-lines.svg')] min-h-screen flex flex-col items-center"
   >
     <!-- NAVIGATION -->
-    <nav class="w-full px-4 py-4 flex justify-between items-center bg-white shadow-lg">
+    <nav class="w-full px-4 py-4 flex justify-between items-center">
       <p class="text-xl sm:text-2xl font-bold font-sans px-4 sm:px-6 py-3">naviga8</p>
-      <div class="flex items-center gap-3">
-        <!-- DARK MODE TOGGLE -->
-        <button
-          id="darkModeToggle"
-          class="rounded-full p-3 bg-gray-100 hover:bg-gray-200 transition-colors"
-          title="Toggle dark mode"
-        >
-          <span id="darkModeIcon" class="text-xl">🌙</span>
-        </button>
-        <!-- GET STARTED BUTTON -->
-        <button
-          id="getStartedBtn"
-          class="rounded-lg text-white text-sm sm:text-[18px] px-7 py-3 bg-green-700 hover:bg-green-800 transition-colors font-bold font-serif"
-        >
-          Get started for free!
-        </button>
-      </div>
+      <button
+        id="getStartedBtn"
+        class="rounded-lg text-white text-sm sm:text-[18px] px-7 py-3 bg-green-800 hover:bg-green-700 transition-colors duration-300 font-bold font-serif"
+      >
+        Get started for free!
+      </button>
     </nav>
 
     <!-- HERO SECTION -->
@@ -98,19 +69,19 @@
       <div class="flex justify-center gap-4 mb-12 sm:mb-24 flex-wrap">
         <button
           id="exploreMapBtn"
-          class="bg-green-700 rounded-lg text-white text-sm sm:text-[18px] px-9 py-3 hover:bg-green-800 transition-colors font-bold font-serif"
+          class="bg-green-800 rounded-lg text-white text-sm sm:text-[18px] px-9 py-3 hover:bg-green-700 transition-colors duration-300 font-bold font-serif"
         >
           Explore App Below
         </button>
       </div>
 
       <!-- MAP CONTAINER -->
-      <div class="bg-gray-200 p-4 sm:p-8 rounded-lg max-w-[1200px] mx-auto mb-12 sm:mb-24 w-full shadow-xl">
+      <div class="bg-gray-200 p-4 sm:p-8 rounded-lg max-w-[1200px] mx-auto mb-12 sm:mb-24 w-full">
         <!-- VIEW SAVED ROUTES BUTTON -->
         <div class="flex justify-start mb-6 sm:mb-8">
           <button
             id="viewSavedRoutesBtn"
-            class="bg-green-700 rounded-lg text-white text-sm sm:text-[18px] px-7 py-3 hover:bg-green-800 transition-colors font-bold font-serif"
+            class="bg-green-800 rounded-lg text-white text-sm sm:text-[18px] px-7 py-3 hover:bg-green-700 transition-colors duration-300 font-bold font-serif"
           >
             View Saved Routes
           </button>
@@ -120,19 +91,17 @@
         <div class="flex gap-3 sm:gap-4 flex-wrap items-start">
           <div class="flex gap-2 flex-1 input-group">
             <div class="flex gap-2 flex-1 w-full">
-              <span class="text-gray-700 text-xl">📍</span>
-              <input
+              📍<input
                 id="origin"
                 placeholder="Origin"
-                class="flex-1 px-3 sm:px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm sm:text-base"
+                class="flex-1 px-3 sm:px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm sm:text-base"
               />
             </div>
             <div class="flex gap-2 flex-1 w-full">
-              <span class="text-gray-700 text-xl">📍</span>
-              <input
+              📍<input
                 id="destination"
                 placeholder="Destination"
-                class="flex-1 px-3 sm:px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm sm:text-base"
+                class="flex-1 px-3 sm:px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm sm:text-base"
               />
             </div>
           </div>
@@ -140,21 +109,21 @@
           <div class="flex gap-2 sm:gap-4 button-group w-full sm:w-auto">
             <button
               id="getRoutesBtn"
-              class="bg-green-700 rounded-lg text-white text-sm sm:text-[18px] px-6 py-3 hover:bg-green-800 transition-colors font-bold font-serif flex-1"
+              class="bg-green-800 rounded-lg text-white text-sm sm:text-[18px] px-6 py-3 hover:bg-green-700 transition-colors duration-300 font-bold font-serif flex-1"
             >
               Get Routes
             </button>
 
             <button
               id="saveRouteBtn"
-              class="bg-green-700 rounded-lg text-white text-sm sm:text-[18px] px-6 py-3 hover:bg-green-800 transition-colors font-bold font-serif flex items-center gap-1 flex-1"
+              class="bg-green-800 rounded-lg text-white text-sm sm:text-[18px] px-6 py-3 hover:bg-green-700 transition-colors duration-300 font-bold font-serif flex items-center gap-1 flex-1"
             >
               Save Route
             </button>
 
             <button
               id="clearBtn"
-              class="text-red-600 font-bold hover:underline px-5 py-3 rounded-lg border border-red-600 hover:bg-red-50 text-sm sm:text-base flex-1 transition-colors"
+              class="text-red-600 font-bold hover:underline px-5 py-3 rounded border border-red-600 text-sm sm:text-base flex-1"
             >
               🗑 Clear
             </button>
@@ -180,168 +149,6 @@
     </div>
 
 <script>
-// ====== SIMPLE DARK MODE ======
-function toggleDarkMode() {
-  const darkModeToggle = document.getElementById("darkModeToggle");
-  const darkModeIcon = document.getElementById("darkModeIcon");
-  const body = document.body;
-  const mapContainer = document.querySelector('.bg-gray-200');
-  const inputs = document.querySelectorAll('input');
-  const paragraphs = document.querySelectorAll('p.text-gray-600, p.text-black, h1.text-black');
-  const headings = document.querySelectorAll('h1, h2, h3');
-  const cards = document.querySelectorAll('.bg-white, .bg-gray-200, .bg-gray-300');
-  
-  // Check saved preference
-  const isDarkMode = localStorage.getItem("naviga8_darkMode") === "true";
-  
-  if (isDarkMode) {
-    // Apply dark mode
-    body.classList.remove("bg-[url('./bg-lines.svg')]");
-    body.classList.add("dark-bg", "dark-text");
-    darkModeIcon.textContent = "☀️";
-    
-    // Update all elements
-    mapContainer.classList.remove("bg-gray-200");
-    mapContainer.classList.add("dark-card");
-    
-    document.querySelector('#map .bg-gray-300').classList.remove("bg-gray-300");
-    document.querySelector('#map .bg-gray-300').classList.add("dark-card");
-    
-    inputs.forEach(input => {
-      input.classList.remove("border-gray-300");
-      input.classList.add("dark-input");
-    });
-    
-    paragraphs.forEach(p => {
-      if (p.classList.contains("text-gray-600")) {
-        p.classList.remove("text-gray-600");
-        p.classList.add("dark-subtle");
-      }
-      if (p.classList.contains("text-black")) {
-        p.classList.remove("text-black");
-        p.classList.add("dark-text");
-      }
-    });
-    
-    headings.forEach(h => {
-      if (h.classList.contains("text-black")) {
-        h.classList.remove("text-black");
-        h.classList.add("dark-text");
-      }
-    });
-    
-    // Update text colors
-    document.querySelectorAll('.text-gray-700').forEach(el => {
-      el.classList.remove("text-gray-700");
-      el.classList.add("dark-subtle");
-    });
-    
-    // Update loading text
-    document.querySelector('#mapLoading p').classList.remove("text-gray-700");
-    document.querySelector('#mapLoading p').classList.add("dark-subtle");
-  }
-  
-  // Toggle dark mode
-  darkModeToggle.addEventListener("click", () => {
-    const isDark = !body.classList.contains("dark-bg");
-    
-    if (isDark) {
-      // Enable dark mode
-      body.classList.remove("bg-[url('./bg-lines.svg')]");
-      body.classList.add("dark-bg", "dark-text");
-      darkModeIcon.textContent = "☀️";
-      
-      // Update elements
-      mapContainer.classList.remove("bg-gray-200");
-      mapContainer.classList.add("dark-card");
-      
-      document.querySelector('#map .bg-gray-300').classList.remove("bg-gray-300");
-      document.querySelector('#map .bg-gray-300').classList.add("dark-card");
-      
-      inputs.forEach(input => {
-        input.classList.remove("border-gray-300");
-        input.classList.add("dark-input");
-      });
-      
-      paragraphs.forEach(p => {
-        if (p.classList.contains("text-gray-600")) {
-          p.classList.remove("text-gray-600");
-          p.classList.add("dark-subtle");
-        }
-        if (p.classList.contains("text-black")) {
-          p.classList.remove("text-black");
-          p.classList.add("dark-text");
-        }
-      });
-      
-      headings.forEach(h => {
-        if (h.classList.contains("text-black")) {
-          h.classList.remove("text-black");
-          h.classList.add("dark-text");
-        }
-      });
-      
-      // Update other text
-      document.querySelectorAll('.text-gray-700').forEach(el => {
-        el.classList.remove("text-gray-700");
-        el.classList.add("dark-subtle");
-      });
-      
-      // Update loading text
-      document.querySelector('#mapLoading p').classList.remove("text-gray-700");
-      document.querySelector('#mapLoading p').classList.add("dark-subtle");
-      
-    } else {
-      // Disable dark mode
-      body.classList.remove("dark-bg", "dark-text");
-      body.classList.add("bg-[url('./bg-lines.svg')]");
-      darkModeIcon.textContent = "🌙";
-      
-      // Restore light mode
-      mapContainer.classList.remove("dark-card");
-      mapContainer.classList.add("bg-gray-200");
-      
-      document.querySelector('#map .bg-gray-300').classList.remove("dark-card");
-      document.querySelector('#map .bg-gray-300').classList.add("bg-gray-300");
-      
-      inputs.forEach(input => {
-        input.classList.remove("dark-input");
-        input.classList.add("border-gray-300");
-      });
-      
-      paragraphs.forEach(p => {
-        if (p.classList.contains("dark-subtle")) {
-          p.classList.remove("dark-subtle");
-          p.classList.add("text-gray-600");
-        }
-        if (p.classList.contains("dark-text")) {
-          p.classList.remove("dark-text");
-          p.classList.add("text-black");
-        }
-      });
-      
-      headings.forEach(h => {
-        if (h.classList.contains("dark-text")) {
-          h.classList.remove("dark-text");
-          h.classList.add("text-black");
-        }
-      });
-      
-      // Restore other text
-      document.querySelectorAll('.dark-subtle').forEach(el => {
-        el.classList.remove("dark-subtle");
-        el.classList.add("text-gray-700");
-      });
-      
-      // Restore loading text
-      document.querySelector('#mapLoading p').classList.remove("dark-subtle");
-      document.querySelector('#mapLoading p').classList.add("text-gray-700");
-    }
-    
-    localStorage.setItem("naviga8_darkMode", isDark);
-  });
-}
-
 // ====== USER ID ======
 let userId = localStorage.getItem("naviga8_userId");
 
@@ -487,9 +294,6 @@ function loadRouteFromURL() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    // Initialize dark mode
-    toggleDarkMode();
-    
     document.getElementById("getStartedBtn").addEventListener("click", () => {
         document.getElementById("map").scrollIntoView({ behavior: "smooth" });
     });
