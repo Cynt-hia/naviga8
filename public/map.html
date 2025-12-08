@@ -34,32 +34,79 @@
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
       }
+      /* Dark mode styles */
+      .dark-mode {
+        background-color: #0f172a;
+        color: #f1f5f9;
+      }
+      .dark-mode .bg-gray-200 {
+        background-color: #1e293b;
+      }
+      .dark-mode input {
+        background-color: #334155;
+        color: #e2e8f0;
+        border-color: #475569;
+      }
+      .dark-mode input::placeholder {
+        color: #94a3b8;
+      }
+      .dark-mode input:focus {
+        background-color: #475569;
+        border-color: #60a5fa;
+        box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.3);
+      }
+      .dark-mode .bg-white {
+        background-color: #1e293b;
+      }
+      .dark-mode .text-gray-600 {
+        color: #cbd5e1;
+      }
+      .dark-mode .text-black {
+        color: #f1f5f9;
+      }
+      .dark-mode .border-red-600 {
+        border-color: #f87171;
+      }
+      .dark-mode .text-red-600 {
+        color: #f87171;
+      }
     </style>
   </head>
   <body
-    class="bg-[url('./bg-lines.svg')] min-h-screen flex flex-col items-center"
+    class="bg-[url('./bg-lines.svg')] bg-cover bg-center min-h-screen flex flex-col items-center transition-colors duration-300"
   >
     <!-- NAVIGATION -->
-    <nav class="w-full px-4 py-4 flex justify-between items-center">
-      <p class="text-xl sm:text-2xl font-bold font-sans px-4 sm:px-6 py-3">naviga8</p>
-      <button
-        id="getStartedBtn"
-        class="rounded-lg text-white text-sm sm:text-[18px] px-7 py-3 bg-green-800 hover:bg-green-700 transition-colors duration-300 font-bold font-serif"
-      >
-        Get started for free!
-      </button>
+    <nav class="w-full px-4 py-4 flex justify-between items-center bg-white dark:bg-gray-900 shadow-lg transition-colors duration-300">
+      <p class="text-xl sm:text-2xl font-bold font-sans px-4 sm:px-6 py-3 text-gray-900 dark:text-gray-100">naviga8</p>
+      <div class="flex items-center gap-3">
+        <!-- DARK MODE TOGGLE -->
+        <button
+          id="darkModeToggle"
+          class="rounded-full p-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-300"
+          title="Toggle dark mode"
+        >
+          <span id="darkModeIcon" class="text-lg">🌙</span>
+        </button>
+        <!-- GET STARTED BUTTON -->
+        <button
+          id="getStartedBtn"
+          class="rounded-lg text-white text-sm sm:text-[18px] px-7 py-3 bg-gradient-to-r from-green-700 to-green-800 hover:from-green-600 hover:to-green-700 transition-all duration-300 font-bold font-serif shadow-md hover:shadow-lg"
+        >
+          Get started for free!
+        </button>
+      </div>
     </nav>
 
     <!-- HERO SECTION -->
     <div class="text-center mt-8 sm:mt-12 px-4 w-full">
       <h1
-        class="font-sans font-bold tracking-tighter leading-[1.1] text-black max-w-[1100px] mx-auto text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[100px]"
+        class="font-sans font-bold tracking-tighter leading-[1.1] text-black dark:text-white max-w-[1100px] mx-auto text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[100px]"
       >
         Find Your Way with Seamless <br class="hidden sm:block" />Navigation
       </h1>
 
       <p
-        class="text-gray-600 font-medium text-base sm:text-lg md:text-xl max-w-[800px] mx-auto mt-4 sm:mt-6 mb-6 sm:mb-8"
+        class="text-gray-600 dark:text-gray-300 font-medium text-base sm:text-lg md:text-xl max-w-[800px] mx-auto mt-4 sm:mt-6 mb-6 sm:mb-8"
       >
         Discover locations, search for places, and get accurate directions with
         our intuitive map app. Simplify your journeys like never before.
@@ -69,19 +116,19 @@
       <div class="flex justify-center gap-4 mb-12 sm:mb-24 flex-wrap">
         <button
           id="exploreMapBtn"
-          class="bg-green-800 rounded-lg text-white text-sm sm:text-[18px] px-9 py-3 hover:bg-green-700 transition-colors duration-300 font-bold font-serif"
+          class="bg-gradient-to-r from-green-700 to-green-800 rounded-lg text-white text-sm sm:text-[18px] px-9 py-3 hover:from-green-600 hover:to-green-700 transition-all duration-300 font-bold font-serif shadow-md hover:shadow-lg"
         >
           Explore App Below
         </button>
       </div>
 
       <!-- MAP CONTAINER -->
-      <div class="bg-gray-200 p-4 sm:p-8 rounded-lg max-w-[1200px] mx-auto mb-12 sm:mb-24 w-full">
+      <div class="bg-gray-200 dark:bg-gray-800 p-4 sm:p-8 rounded-lg max-w-[1200px] mx-auto mb-12 sm:mb-24 w-full shadow-xl transition-colors duration-300">
         <!-- VIEW SAVED ROUTES BUTTON -->
         <div class="flex justify-start mb-6 sm:mb-8">
           <button
             id="viewSavedRoutesBtn"
-            class="bg-green-800 rounded-lg text-white text-sm sm:text-[18px] px-7 py-3 hover:bg-green-700 transition-colors duration-300 font-bold font-serif"
+            class="bg-gradient-to-r from-green-700 to-green-800 rounded-lg text-white text-sm sm:text-[18px] px-7 py-3 hover:from-green-600 hover:to-green-700 transition-all duration-300 font-bold font-serif shadow-md hover:shadow-lg"
           >
             View Saved Routes
           </button>
@@ -91,17 +138,19 @@
         <div class="flex gap-3 sm:gap-4 flex-wrap items-start">
           <div class="flex gap-2 flex-1 input-group">
             <div class="flex gap-2 flex-1 w-full">
-              📍<input
+              <span class="text-gray-700 dark:text-gray-300 text-xl">📍</span>
+              <input
                 id="origin"
                 placeholder="Origin"
-                class="flex-1 px-3 sm:px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm sm:text-base"
+                class="flex-1 px-3 sm:px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-green-500 dark:focus:ring-green-400 text-sm sm:text-base transition-colors duration-300"
               />
             </div>
             <div class="flex gap-2 flex-1 w-full">
-              📍<input
+              <span class="text-gray-700 dark:text-gray-300 text-xl">📍</span>
+              <input
                 id="destination"
                 placeholder="Destination"
-                class="flex-1 px-3 sm:px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm sm:text-base"
+                class="flex-1 px-3 sm:px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-green-500 dark:focus:ring-green-400 text-sm sm:text-base transition-colors duration-300"
               />
             </div>
           </div>
@@ -109,21 +158,21 @@
           <div class="flex gap-2 sm:gap-4 button-group w-full sm:w-auto">
             <button
               id="getRoutesBtn"
-              class="bg-green-800 rounded-lg text-white text-sm sm:text-[18px] px-6 py-3 hover:bg-green-700 transition-colors duration-300 font-bold font-serif flex-1"
+              class="bg-gradient-to-r from-green-700 to-green-800 rounded-lg text-white text-sm sm:text-[18px] px-6 py-3 hover:from-green-600 hover:to-green-700 transition-all duration-300 font-bold font-serif flex-1 shadow-md hover:shadow-lg"
             >
               Get Routes
             </button>
 
             <button
               id="saveRouteBtn"
-              class="bg-green-800 rounded-lg text-white text-sm sm:text-[18px] px-6 py-3 hover:bg-green-700 transition-colors duration-300 font-bold font-serif flex items-center gap-1 flex-1"
+              class="bg-gradient-to-r from-green-700 to-green-800 rounded-lg text-white text-sm sm:text-[18px] px-6 py-3 hover:from-green-600 hover:to-green-700 transition-all duration-300 font-bold font-serif flex items-center gap-1 flex-1 shadow-md hover:shadow-lg"
             >
               Save Route
             </button>
 
             <button
               id="clearBtn"
-              class="text-red-600 font-bold hover:underline px-5 py-3 rounded border border-red-600 text-sm sm:text-base flex-1"
+              class="text-red-600 dark:text-red-400 font-bold hover:underline px-5 py-3 rounded-lg border border-red-600 dark:border-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 text-sm sm:text-base flex-1 transition-colors duration-300"
             >
               🗑 Clear
             </button>
@@ -133,13 +182,13 @@
         <!-- MAP DISPLAY WITH LOADING -->
         <div
           id="map"
-          class="mt-6 sm:mt-8 w-full h-[300px] sm:h-[400px] md:h-[500px] bg-gray-300 rounded-lg relative overflow-hidden"
+          class="mt-6 sm:mt-8 w-full h-[300px] sm:h-[400px] md:h-[500px] bg-gray-300 dark:bg-gray-700 rounded-lg relative overflow-hidden transition-colors duration-300"
         >
           <!-- LOADING SPINNER -->
-          <div id="mapLoading" class="absolute inset-0 flex items-center justify-center bg-gray-300">
+          <div id="mapLoading" class="absolute inset-0 flex items-center justify-center bg-gray-300 dark:bg-gray-700 transition-colors duration-300">
             <div class="text-center">
-              <div class="inline-block loading-spinner rounded-full h-10 w-10 border-4 border-green-800 border-t-transparent"></div>
-              <p class="mt-3 text-gray-700 font-medium">Loading map...</p>
+              <div class="inline-block loading-spinner rounded-full h-10 w-10 border-4 border-green-800 dark:border-green-400 border-t-transparent"></div>
+              <p class="mt-3 text-gray-700 dark:text-gray-300 font-medium">Loading map...</p>
             </div>
           </div>
           <!-- ACTUAL MAP CONTAINER (HIDDEN INITIALLY) -->
@@ -149,6 +198,28 @@
     </div>
 
 <script>
+// ====== DARK MODE ======
+function initDarkMode() {
+  const darkModeToggle = document.getElementById("darkModeToggle");
+  const darkModeIcon = document.getElementById("darkModeIcon");
+  
+  // Check saved preference
+  const isDarkMode = localStorage.getItem("naviga8_darkMode") === "true";
+  
+  if (isDarkMode) {
+    document.body.classList.add("dark-mode");
+    darkModeIcon.textContent = "☀️";
+  }
+  
+  // Toggle dark mode
+  darkModeToggle.addEventListener("click", () => {
+    document.body.classList.toggle("dark-mode");
+    const isDark = document.body.classList.contains("dark-mode");
+    darkModeIcon.textContent = isDark ? "☀️" : "🌙";
+    localStorage.setItem("naviga8_darkMode", isDark);
+  });
+}
+
 // ====== USER ID ======
 let userId = localStorage.getItem("naviga8_userId");
 
@@ -294,6 +365,9 @@ function loadRouteFromURL() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+    // Initialize dark mode
+    initDarkMode();
+    
     document.getElementById("getStartedBtn").addEventListener("click", () => {
         document.getElementById("map").scrollIntoView({ behavior: "smooth" });
     });
@@ -386,7 +460,7 @@ async function loadGoogleMaps() {
         } catch (err) {
             console.error("Google Maps load error:", err);
             document.getElementById("mapLoading").innerHTML = 
-                '<div class="text-center p-8"><p class="text-red-600">Map failed to load. Please check your connection.</p></div>';
+                '<div class="text-center p-8"><p class="text-red-600 dark:text-red-400">Map failed to load. Please check your connection.</p></div>';
             return;
         }
     }
