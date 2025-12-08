@@ -697,4 +697,33 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 async function loadGoogleMaps() {
-    if (window.google && window.google.maps
+    if (window.google && window.google.maps) {
+        initMap();
+        return;
+    }
+
+    let key = sessionStorage.getItem("GOOGLE_MAPS_KEY");
+    if (!key) {
+        try {
+            const res = await fetch("/api/google-key");
+            if (!res.ok) throw new Error("Failed to get key");
+            const data = await res.json();
+            key = data.key;
+            sessionStorage.setItem("GOOGLE_MAPS_KEY", key);
+        } catch (err) {
+            console.error("Google Maps load error:", err);
+            document.getElementById("mapLoading").innerHTML = 
+                '<div class="text-center p-8"><p class="text-red-600 dark:text-red-400">Map failed to load. Please check your connection.</p></div>';
+            return;
+        }
+    }
+
+    const script = document.createElement("script");
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${key}&libraries=places&callback=initMap`;
+    script.async = true;
+    script.defer = true;
+    document.head.appendChild(script);
+}
+</script>
+  </body>
+</html>
