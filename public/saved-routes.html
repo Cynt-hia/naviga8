@@ -5,19 +5,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Saved Routes - naviga8</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* Dark mode styles */
+      .dark-mode {
+        background-color: #0f172a;
+        color: #f1f5f9;
+      }
+      .dark-mode .bg-white {
+        background-color: #1e293b;
+      }
+      .dark-mode .text-gray-600 {
+        color: #cbd5e1;
+      }
+      .dark-mode .text-red-600 {
+        color: #f87171;
+      }
+      .dark-mode .bg-gray-100 {
+        background-color: #0f172a;
+      }
+      .dark-mode .shadow {
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+      }
+    </style>
   </head>
-  <body class="bg-gray-100 min-h-screen flex flex-col items-center">
+  <body class="bg-gray-100 min-h-screen flex flex-col items-center transition-colors duration-300">
     <!-- NAVIGATION -->
     <nav
-      class="w-full px-4 sm:px-6 py-4 flex justify-between items-center bg-white shadow"
+      class="w-full px-4 sm:px-6 py-4 flex justify-between items-center bg-white shadow-lg transition-colors duration-300"
     >
       <p class="text-xl sm:text-2xl font-bold font-sans px-4 sm:px-6 py-3">naviga8</p>
-      <button
-        id="backToMapBtn"
-        class="bg-green-800 rounded-lg text-white text-sm sm:text-[18px] px-7 py-3 hover:bg-green-700 transition-colors duration-300 font-bold font-serif"
-      >
-        Back to Map
-      </button>
+      <div class="flex items-center gap-3">
+        <!-- DARK MODE TOGGLE -->
+        <button
+          id="darkModeToggle"
+          class="rounded-full p-2 bg-gray-200 hover:bg-gray-300 transition-colors duration-300"
+          title="Toggle dark mode"
+        >
+          <span id="darkModeIcon" class="text-lg">🌙</span>
+        </button>
+        <!-- BACK TO MAP BUTTON -->
+        <button
+          id="backToMapBtn"
+          class="bg-gradient-to-r from-green-700 to-green-800 rounded-lg text-white text-sm sm:text-[18px] px-7 py-3 hover:from-green-600 hover:to-green-700 transition-all duration-300 font-bold font-serif shadow-md hover:shadow-lg"
+        >
+          Back to Map
+        </button>
+      </div>
     </nav>
 
     <!-- MAIN CONTENT -->
@@ -28,6 +61,28 @@
     </div>
 
 <script>
+// ====== DARK MODE ======
+function initDarkMode() {
+  const darkModeToggle = document.getElementById("darkModeToggle");
+  const darkModeIcon = document.getElementById("darkModeIcon");
+  
+  // Check saved preference
+  const isDarkMode = localStorage.getItem("naviga8_darkMode") === "true";
+  
+  if (isDarkMode) {
+    document.body.classList.add("dark-mode");
+    darkModeIcon.textContent = "☀️";
+  }
+  
+  // Toggle dark mode
+  darkModeToggle.addEventListener("click", () => {
+    document.body.classList.toggle("dark-mode");
+    const isDark = document.body.classList.contains("dark-mode");
+    darkModeIcon.textContent = isDark ? "☀️" : "🌙";
+    localStorage.setItem("naviga8_darkMode", isDark);
+  });
+}
+
 // ====== USER ID ======
 let userId = localStorage.getItem("naviga8_userId");
 
@@ -72,7 +127,7 @@ async function fetchSavedRoutes() {
         routesList.innerHTML = "";
 
         if (!Array.isArray(routes) || routes.length === 0) {
-            routesList.innerHTML = "<p class='text-gray-600 text-center py-8'>No saved routes yet.</p>";
+            routesList.innerHTML = "<p class='text-gray-600 dark:text-gray-300 text-center py-8'>No saved routes yet.</p>";
             return;
         }
 
@@ -82,17 +137,17 @@ async function fetchSavedRoutes() {
             const destination = route.destination?.address || "";
 
             const div = document.createElement("div");
-            div.className = "bg-white p-4 rounded shadow flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4";
+            div.className = "bg-white dark:bg-gray-800 p-4 rounded shadow flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 transition-colors duration-300";
             div.innerHTML = `
                 <div class="flex-1">
-                    <p class="break-words"><strong>Origin:</strong> ${escapeHtml(origin)}</p>
-                    <p class="break-words"><strong>Destination:</strong> ${escapeHtml(destination)}</p>
+                    <p class="break-words text-gray-800 dark:text-gray-200"><strong>Origin:</strong> ${escapeHtml(origin)}</p>
+                    <p class="break-words text-gray-800 dark:text-gray-200"><strong>Destination:</strong> ${escapeHtml(destination)}</p>
                 </div>
                 <div class="flex gap-2 flex-wrap">
-                    <button class="bg-red-800 hover:bg-red-700 text-white px-5 py-3 rounded deleteBtn text-sm sm:text-base" data-id="${id}">
+                    <button class="bg-gradient-to-r from-red-700 to-red-800 hover:from-red-600 hover:to-red-700 text-white px-5 py-3 rounded deleteBtn text-sm sm:text-base shadow transition-all duration-300" data-id="${id}">
                         Delete
                     </button>
-                    <button class="bg-green-800 hover:bg-green-700 text-white px-5 py-3 rounded viewBtn text-sm sm:text-base"
+                    <button class="bg-gradient-to-r from-green-700 to-green-800 hover:from-green-600 hover:to-green-700 text-white px-5 py-3 rounded viewBtn text-sm sm:text-base shadow transition-all duration-300"
                         data-origin="${encodeURIComponent(origin)}" 
                         data-destination="${encodeURIComponent(destination)}">
                         View on Map
@@ -140,7 +195,7 @@ async function fetchSavedRoutes() {
         if (loadingMessage) {
             loadingMessage.style.display = "none";
         }
-        routesList.innerHTML = "<p class='text-red-600 text-center py-8'>Error loading saved routes. Please try again.</p>";
+        routesList.innerHTML = "<p class='text-red-600 dark:text-red-400 text-center py-8'>Error loading saved routes. Please try again.</p>";
     }
 }
 
@@ -154,8 +209,11 @@ function escapeHtml(text) {
         .replace(/'/g, "&#039;");
 }
 
-// Load routes when page loads
-fetchSavedRoutes();
+// Initialize dark mode
+document.addEventListener("DOMContentLoaded", () => {
+    initDarkMode();
+    fetchSavedRoutes();
+});
 </script>
   </body>
 </html>
