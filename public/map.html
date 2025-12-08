@@ -34,11 +34,33 @@
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
       }
+      
+      /* Animated background */
+      .bg-animated-grid {
+        background: 
+          linear-gradient(90deg, #f0f9ff 1px, transparent 1px) 0 0 / 40px 40px,
+          linear-gradient(#f0f9ff 1px, transparent 1px) 0 0 / 40px 40px,
+          #ffffff;
+        animation: gridMove 80s linear infinite;
+      }
+      
+      @keyframes gridMove {
+        0% { background-position: 0 0, 0 0; }
+        100% { background-position: 80px 80px, 80px 80px; }
+      }
+      
+      /* Smooth transitions */
+      .fade-in {
+        animation: fadeIn 0.5s ease-in;
+      }
+      
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
     </style>
   </head>
-  <body
-    class="bg-[url('./bg-lines.svg')] min-h-screen flex flex-col items-center"
-  >
+  <body class="bg-animated-grid min-h-screen flex flex-col items-center">
     <!-- NAVIGATION -->
     <nav class="w-full px-4 py-4 flex justify-between items-center">
       <p class="text-xl sm:text-2xl font-bold font-sans px-4 sm:px-6 py-3">naviga8</p>
@@ -53,37 +75,37 @@
     <!-- HERO SECTION -->
     <div class="text-center mt-8 sm:mt-12 px-4 w-full">
       <h1
-        class="font-sans font-bold tracking-tighter leading-[1.1] text-black max-w-[1100px] mx-auto text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[100px]"
+        class="font-sans font-bold tracking-tighter leading-[1.1] text-black max-w-[1100px] mx-auto text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[100px] fade-in"
       >
         Find Your Way with Seamless <br class="hidden sm:block" />Navigation
       </h1>
 
       <p
-        class="text-gray-600 font-medium text-base sm:text-lg md:text-xl max-w-[800px] mx-auto mt-4 sm:mt-6 mb-6 sm:mb-8"
+        class="text-gray-600 font-medium text-base sm:text-lg md:text-xl max-w-[800px] mx-auto mt-4 sm:mt-6 mb-6 sm:mb-8 fade-in"
       >
         Discover locations, search for places, and get accurate directions with
         our intuitive map app. Simplify your journeys like never before.
       </p>
 
       <!-- EXPLORE BUTTON -->
-      <div class="flex justify-center gap-4 mb-12 sm:mb-24 flex-wrap">
+      <div class="flex justify-center gap-4 mb-12 sm:mb-24 flex-wrap fade-in">
         <button
           id="exploreMapBtn"
-          class="bg-green-700 rounded-lg text-white text-sm sm:text-[18px] px-9 py-3 hover:bg-green-800 transition-colors font-bold font-serif"
+          class="bg-green-700 rounded-lg text-white text-sm sm:text-[18px] px-9 py-3 hover:bg-green-800 transition-colors font-bold font-serif transform hover:scale-105 transition-transform"
         >
           Explore App Below
         </button>
       </div>
 
       <!-- MAP CONTAINER -->
-      <div class="bg-gray-200 p-4 sm:p-8 rounded-lg max-w-[1200px] mx-auto mb-12 sm:mb-24 w-full shadow-xl">
+      <div class="bg-white p-4 sm:p-8 rounded-lg max-w-[1200px] mx-auto mb-12 sm:mb-24 w-full shadow-xl border border-gray-200">
         <!-- VIEW SAVED ROUTES BUTTON -->
-        <div class="flex justify-start mb-6 sm:mb-8">
+        <div class="flex justify-between mb-6 sm:mb-8">
           <button
             id="viewSavedRoutesBtn"
-            class="bg-green-700 rounded-lg text-white text-sm sm:text-[18px] px-7 py-3 hover:bg-green-800 transition-colors font-bold font-serif"
+            class="bg-green-700 rounded-lg text-white text-sm sm:text-[18px] px-7 py-3 hover:bg-green-800 transition-colors font-bold font-serif transform hover:scale-105 transition-transform"
           >
-            View Saved Routes
+            📁 View Saved Routes
           </button>
         </div>
 
@@ -94,7 +116,7 @@
               <span class="text-gray-700 text-xl">📍</span>
               <input
                 id="origin"
-                placeholder="Origin"
+                placeholder="Enter origin (address, city, landmark)"
                 class="flex-1 px-3 sm:px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm sm:text-base"
               />
             </div>
@@ -102,7 +124,7 @@
               <span class="text-gray-700 text-xl">📍</span>
               <input
                 id="destination"
-                placeholder="Destination"
+                placeholder="Enter destination (address, city, landmark)"
                 class="flex-1 px-3 sm:px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm sm:text-base"
               />
             </div>
@@ -111,37 +133,55 @@
           <div class="flex gap-2 sm:gap-4 button-group w-full sm:w-auto">
             <button
               id="getRoutesBtn"
-              class="bg-green-700 rounded-lg text-white text-sm sm:text-[18px] px-6 py-3 hover:bg-green-800 transition-colors font-bold font-serif flex-1"
+              class="bg-green-700 rounded-lg text-white text-sm sm:text-[18px] px-6 py-3 hover:bg-green-800 transition-colors font-bold font-serif flex-1 transform hover:scale-105 transition-transform"
             >
-              Get Routes
+              🚗 Get Routes
             </button>
 
             <button
               id="saveRouteBtn"
-              class="bg-green-700 rounded-lg text-white text-sm sm:text-[18px] px-6 py-3 hover:bg-green-800 transition-colors font-bold font-serif flex items-center gap-1 flex-1"
+              class="bg-green-700 rounded-lg text-white text-sm sm:text-[18px] px-6 py-3 hover:bg-green-800 transition-colors font-bold font-serif flex items-center gap-1 flex-1 transform hover:scale-105 transition-transform"
             >
-              Save Route
+              💾 Save Route
             </button>
 
             <button
               id="clearBtn"
-              class="text-red-600 font-bold hover:underline px-5 py-3 rounded-lg border border-red-600 hover:bg-red-50 text-sm sm:text-base flex-1 transition-colors"
+              class="text-red-600 font-bold hover:underline px-5 py-3 rounded-lg border border-red-600 hover:bg-red-50 text-sm sm:text-base flex-1 transition-colors transform hover:scale-105 transition-transform"
             >
-              🗑 Clear
+              🗑️ Clear
             </button>
+          </div>
+        </div>
+
+        <!-- ROUTE DETAILS -->
+        <div id="routeDetails" class="hidden mt-6 p-4 bg-green-50 rounded-lg border border-green-200 fade-in">
+          <h3 class="font-bold text-lg mb-3 text-green-800">Route Details</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="text-center p-3 bg-white rounded shadow">
+              <div class="text-2xl mb-2">📏</div>
+              <p class="font-bold text-gray-800 text-xl" id="distanceText">--</p>
+              <p class="text-sm text-gray-600">Distance</p>
+            </div>
+            <div class="text-center p-3 bg-white rounded shadow">
+              <div class="text-2xl mb-2">⏱️</div>
+              <p class="font-bold text-gray-800 text-xl" id="durationText">--</p>
+              <p class="text-sm text-gray-600">Duration</p>
+            </div>
           </div>
         </div>
 
         <!-- MAP DISPLAY WITH LOADING -->
         <div
           id="map"
-          class="mt-6 sm:mt-8 w-full h-[300px] sm:h-[400px] md:h-[500px] bg-gray-300 rounded-lg relative overflow-hidden"
+          class="mt-6 sm:mt-8 w-full h-[300px] sm:h-[400px] md:h-[500px] bg-gray-100 rounded-lg border border-gray-300 relative overflow-hidden"
         >
           <!-- LOADING SPINNER -->
-          <div id="mapLoading" class="absolute inset-0 flex items-center justify-center bg-gray-300">
+          <div id="mapLoading" class="absolute inset-0 flex items-center justify-center bg-gray-100">
             <div class="text-center">
-              <div class="inline-block loading-spinner rounded-full h-10 w-10 border-4 border-green-800 border-t-transparent"></div>
-              <p class="mt-3 text-gray-700 font-medium">Loading map...</p>
+              <div class="inline-block loading-spinner rounded-full h-12 w-12 border-4 border-green-600 border-t-transparent"></div>
+              <p class="mt-4 text-gray-700 font-medium">Loading map...</p>
+              <p class="text-sm text-gray-500 mt-1">Powered by Google Maps</p>
             </div>
           </div>
           <!-- ACTUAL MAP CONTAINER (HIDDEN INITIALLY) -->
@@ -175,6 +215,7 @@ async function getOrCreateUserId() {
 let map;
 let directionsService;
 let directionsRenderer;
+let autocomplete1, autocomplete2;
 
 function saveInputsLocally() {
     localStorage.setItem("lastOrigin", document.getElementById("origin").value);
@@ -201,18 +242,47 @@ function initMap() {
         center: savedCenter,
         zoom: savedZoom,
         mapTypeId: savedType,
+        mapTypeControl: true,
+        streetViewControl: true,
+        fullscreenControl: true,
     });
 
     new google.maps.Marker({
         position: defaultCenter,
         map: map,
         title: "My School",
+        icon: {
+            url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+        }
     });
+
+    // Initialize autocomplete if Google Places is available
+    if (window.google.maps.places) {
+        const originInput = document.getElementById('origin');
+        const destInput = document.getElementById('destination');
+        
+        autocomplete1 = new google.maps.places.Autocomplete(originInput, {
+            types: ['geocode'],
+            componentRestrictions: { country: 'ng' }
+        });
+        
+        autocomplete2 = new google.maps.places.Autocomplete(destInput, {
+            types: ['geocode'],
+            componentRestrictions: { country: 'ng' }
+        });
+    }
 
     if (!directionsRenderer) {
         directionsService = new google.maps.DirectionsService();
-        directionsRenderer = new google.maps.DirectionsRenderer();
-        directionsRenderer.setMap(map);
+        directionsRenderer = new google.maps.DirectionsRenderer({
+            map: map,
+            suppressMarkers: false,
+            polylineOptions: {
+                strokeColor: '#10b981',
+                strokeWeight: 5,
+                strokeOpacity: 0.8
+            }
+        });
     }
 
     loadInputs();
@@ -252,12 +322,12 @@ function calculateRoute(originVal, destinationVal) {
     const destination = destinationVal || document.getElementById("destination").value;
 
     if (!origin || !destination) {
-        alert("Enter both origin and destination");
+        alert("Please enter both origin and destination");
         return;
     }
     
     if (!directionsService || !directionsRenderer) {
-        alert("Map is not ready yet");
+        alert("Map is not ready yet. Please wait...");
         return;
     }
 
@@ -268,7 +338,12 @@ function calculateRoute(originVal, destinationVal) {
     routeBtn.disabled = true;
 
     directionsService.route(
-        { origin, destination, travelMode: "DRIVING" },
+        {
+            origin: origin,
+            destination: destination,
+            travelMode: "DRIVING",
+            provideRouteAlternatives: true
+        },
         (result, status) => {
             // Restore button
             routeBtn.disabled = false;
@@ -277,11 +352,28 @@ function calculateRoute(originVal, destinationVal) {
             if (status === "OK") {
                 directionsRenderer.setDirections(result);
                 saveInputsLocally();
+                showRouteDetails(result);
             } else {
-                alert("Route not found: " + status);
+                alert("Route not found. Please check your addresses. Error: " + status);
             }
         }
     );
+}
+
+function showRouteDetails(result) {
+    if (!result.routes || result.routes.length === 0) return;
+    
+    const route = result.routes[0];
+    if (!route.legs || route.legs.length === 0) return;
+    
+    const leg = route.legs[0];
+    document.getElementById("distanceText").textContent = leg.distance?.text || "--";
+    document.getElementById("durationText").textContent = leg.duration?.text || "--";
+    
+    // Show the details section with animation
+    const detailsDiv = document.getElementById("routeDetails");
+    detailsDiv.classList.remove("hidden");
+    detailsDiv.classList.add("fade-in");
 }
 
 function loadRouteFromURL() {
@@ -307,7 +399,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const origin = document.getElementById("origin").value.trim();
         const destination = document.getElementById("destination").value.trim();
         if (!origin || !destination)
-            return alert("Enter both origin and destination!");
+            return alert("Please enter both origin and destination!");
 
         btn.disabled = true;
         const originalText = btn.innerHTML;
@@ -354,7 +446,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.getElementById("exploreMapBtn").addEventListener("click", () => {
         window.scrollTo({
-            top: document.getElementById("map").offsetTop,
+            top: document.getElementById("map").offsetTop - 20,
             behavior: "smooth"
         });
     });
@@ -366,6 +458,16 @@ document.addEventListener("DOMContentLoaded", () => {
             directionsRenderer.setDirections({ routes: [] });
         localStorage.removeItem("lastOrigin");
         localStorage.removeItem("lastDestination");
+        document.getElementById("routeDetails").classList.add("hidden");
+    });
+
+    // Enter key support for inputs
+    document.getElementById("origin").addEventListener("keypress", (e) => {
+        if (e.key === "Enter") calculateRoute();
+    });
+    
+    document.getElementById("destination").addEventListener("keypress", (e) => {
+        if (e.key === "Enter") calculateRoute();
     });
 
     loadGoogleMaps();
@@ -394,7 +496,7 @@ async function loadGoogleMaps() {
     }
 
     const script = document.createElement("script");
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${key}&callback=initMap`;
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${key}&libraries=places&callback=initMap`;
     script.async = true;
     script.defer = true;
     document.head.appendChild(script);
