@@ -27,9 +27,10 @@ mongoose.connect(mongoURI)
     process.exit(1);
   });
 
-// Route Schema
+// UPDATED Route Schema with userId
 const routeSchema = new mongoose.Schema(
   {
+    userId: { type: String, required: true },  // NEW: User identification
     origin: { address: String },
     destination: { address: String },
   },
@@ -43,20 +44,21 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // API Routes
 
-// Save a route with duplicate check
+// Save a route with userId
 app.post("/save-route", async (req, res) => {
-  const { origin, destination } = req.body;
+  const { userId, origin, destination } = req.body;  // ADDED userId
   
   // Input validation
-  if (!origin || !destination)
-    return res.status(400).json({ msg: "Origin and destination required" });
+  if (!userId || !origin || !destination)
+    return res.status(400).json({ msg: "User ID, origin and destination required" });
 
   try {
     const originObj = typeof origin === "string" ? { address: origin.trim() } : origin;
     const destinationObj = typeof destination === "string" ? { address: destination.trim() } : destination;
 
-    // Check if route already exists
+    // Check if route already exists FOR THIS USER
     const existingRoute = await Route.findOne({
+      userId: userId,
       "origin.address": originObj.address,
       "destination.address": destinationObj.address
     });
@@ -65,8 +67,9 @@ app.post("/save-route", async (req, res) => {
       return res.status(409).json({ msg: "This route is already saved!" });
     }
 
-    // Save new route
+    // Save new route with userId
     const newRoute = new Route({
+      userId: userId,
       origin: originObj,
       destination: destinationObj,
     });
@@ -80,10 +83,16 @@ app.post("/save-route", async (req, res) => {
   }
 });
 
-// Get all saved routes
+// Get saved routes FOR SPECIFIC USER
 app.get("/routes", async (req, res) => {
+  const { userId } = req.query;  // Get userId from query parameters
+  
+  if (!userId) {
+    return res.status(400).json({ msg: "User ID required" });
+  }
+  
   try {
-    const routes = await Route.find().sort({ createdAt: -1 });
+    const routes = await Route.find({ userId: userId }).sort({ createdAt: -1 });
     res.json(routes);
   } catch (err) {
     console.error(err);
@@ -91,11 +100,21 @@ app.get("/routes", async (req, res) => {
   }
 });
 
-// Delete a route
+// Delete a route (user can only delete their own)
 app.delete("/delete-route/:id", async (req, res) => {
+  const { userId } = req.query;  // Get userId from query
+  
+  if (!userId) {
+    return res.status(400).json({ msg: "User ID required" });
+  }
+  
   try {
-    const deleted = await Route.findByIdAndDelete(req.params.id);
-    if (!deleted) return res.status(404).json({ msg: "Route not found" });
+    const deleted = await Route.findOneAndDelete({
+      _id: req.params.id,
+      userId: userId  // Ensure user can only delete their own routes
+    });
+    
+    if (!deleted) return res.status(404).json({ msg: "Route not found or not authorized" });
     res.json({ msg: "Deleted", id: req.params.id });
   } catch (err) {
     console.error(err);
@@ -108,6 +127,13 @@ app.get("/api/google-key", (req, res) => {
   const key = process.env.GOOGLE_MAPS_API_KEY;
   if (!key) return res.status(500).json({ msg: "API key not configured" });
   res.json({ key });
+});
+
+// Get or create user ID
+app.get("/api/user-id", (req, res) => {
+  // Generate a random user ID if not provided
+  const userId = Math.random().toString(36).substr(2, 9) + Date.now().toString(36);
+  res.json({ userId: userId });
 });
 
 // Root route - serve the map page
