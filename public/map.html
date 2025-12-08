@@ -34,41 +34,28 @@
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
       }
-      /* Simple Dark Mode */
-      body.dark {
+      /* Dark Mode Colors */
+      .dark-bg {
         background-color: #111827;
+      }
+      .dark-text {
         color: #f9fafb;
       }
-      body.dark .bg-gray-200 {
-        background-color: #1f2937;
-      }
-      body.dark input {
+      .dark-input {
         background-color: #374151;
         color: #f9fafb;
         border-color: #4b5563;
       }
-      body.dark .bg-white {
+      .dark-card {
         background-color: #1f2937;
       }
-      body.dark .text-gray-600 {
+      .dark-subtle {
         color: #d1d5db;
-      }
-      body.dark .text-black {
-        color: #f9fafb;
-      }
-      body.dark .border-red-600 {
-        border-color: #ef4444;
-      }
-      body.dark .text-red-600 {
-        color: #ef4444;
-      }
-      body.dark .bg-gray-300 {
-        background-color: #374151;
       }
     </style>
   </head>
   <body
-    class="bg-[url('./bg-lines.svg')] min-h-screen flex flex-col items-center"
+    class="min-h-screen flex flex-col items-center bg-[url('./bg-lines.svg')]"
   >
     <!-- NAVIGATION -->
     <nav class="w-full px-4 py-4 flex justify-between items-center bg-white shadow-lg">
@@ -194,22 +181,166 @@
 
 <script>
 // ====== SIMPLE DARK MODE ======
-const darkModeToggle = document.getElementById("darkModeToggle");
-const darkModeIcon = document.getElementById("darkModeIcon");
-
-// Check saved preference
-if (localStorage.getItem("naviga8_darkMode") === "true") {
-  document.body.classList.add("dark");
-  darkModeIcon.textContent = "☀️";
+function toggleDarkMode() {
+  const darkModeToggle = document.getElementById("darkModeToggle");
+  const darkModeIcon = document.getElementById("darkModeIcon");
+  const body = document.body;
+  const mapContainer = document.querySelector('.bg-gray-200');
+  const inputs = document.querySelectorAll('input');
+  const paragraphs = document.querySelectorAll('p.text-gray-600, p.text-black, h1.text-black');
+  const headings = document.querySelectorAll('h1, h2, h3');
+  const cards = document.querySelectorAll('.bg-white, .bg-gray-200, .bg-gray-300');
+  
+  // Check saved preference
+  const isDarkMode = localStorage.getItem("naviga8_darkMode") === "true";
+  
+  if (isDarkMode) {
+    // Apply dark mode
+    body.classList.remove("bg-[url('./bg-lines.svg')]");
+    body.classList.add("dark-bg", "dark-text");
+    darkModeIcon.textContent = "☀️";
+    
+    // Update all elements
+    mapContainer.classList.remove("bg-gray-200");
+    mapContainer.classList.add("dark-card");
+    
+    document.querySelector('#map .bg-gray-300').classList.remove("bg-gray-300");
+    document.querySelector('#map .bg-gray-300').classList.add("dark-card");
+    
+    inputs.forEach(input => {
+      input.classList.remove("border-gray-300");
+      input.classList.add("dark-input");
+    });
+    
+    paragraphs.forEach(p => {
+      if (p.classList.contains("text-gray-600")) {
+        p.classList.remove("text-gray-600");
+        p.classList.add("dark-subtle");
+      }
+      if (p.classList.contains("text-black")) {
+        p.classList.remove("text-black");
+        p.classList.add("dark-text");
+      }
+    });
+    
+    headings.forEach(h => {
+      if (h.classList.contains("text-black")) {
+        h.classList.remove("text-black");
+        h.classList.add("dark-text");
+      }
+    });
+    
+    // Update text colors
+    document.querySelectorAll('.text-gray-700').forEach(el => {
+      el.classList.remove("text-gray-700");
+      el.classList.add("dark-subtle");
+    });
+    
+    // Update loading text
+    document.querySelector('#mapLoading p').classList.remove("text-gray-700");
+    document.querySelector('#mapLoading p').classList.add("dark-subtle");
+  }
+  
+  // Toggle dark mode
+  darkModeToggle.addEventListener("click", () => {
+    const isDark = !body.classList.contains("dark-bg");
+    
+    if (isDark) {
+      // Enable dark mode
+      body.classList.remove("bg-[url('./bg-lines.svg')]");
+      body.classList.add("dark-bg", "dark-text");
+      darkModeIcon.textContent = "☀️";
+      
+      // Update elements
+      mapContainer.classList.remove("bg-gray-200");
+      mapContainer.classList.add("dark-card");
+      
+      document.querySelector('#map .bg-gray-300').classList.remove("bg-gray-300");
+      document.querySelector('#map .bg-gray-300').classList.add("dark-card");
+      
+      inputs.forEach(input => {
+        input.classList.remove("border-gray-300");
+        input.classList.add("dark-input");
+      });
+      
+      paragraphs.forEach(p => {
+        if (p.classList.contains("text-gray-600")) {
+          p.classList.remove("text-gray-600");
+          p.classList.add("dark-subtle");
+        }
+        if (p.classList.contains("text-black")) {
+          p.classList.remove("text-black");
+          p.classList.add("dark-text");
+        }
+      });
+      
+      headings.forEach(h => {
+        if (h.classList.contains("text-black")) {
+          h.classList.remove("text-black");
+          h.classList.add("dark-text");
+        }
+      });
+      
+      // Update other text
+      document.querySelectorAll('.text-gray-700').forEach(el => {
+        el.classList.remove("text-gray-700");
+        el.classList.add("dark-subtle");
+      });
+      
+      // Update loading text
+      document.querySelector('#mapLoading p').classList.remove("text-gray-700");
+      document.querySelector('#mapLoading p').classList.add("dark-subtle");
+      
+    } else {
+      // Disable dark mode
+      body.classList.remove("dark-bg", "dark-text");
+      body.classList.add("bg-[url('./bg-lines.svg')]");
+      darkModeIcon.textContent = "🌙";
+      
+      // Restore light mode
+      mapContainer.classList.remove("dark-card");
+      mapContainer.classList.add("bg-gray-200");
+      
+      document.querySelector('#map .bg-gray-300').classList.remove("dark-card");
+      document.querySelector('#map .bg-gray-300').classList.add("bg-gray-300");
+      
+      inputs.forEach(input => {
+        input.classList.remove("dark-input");
+        input.classList.add("border-gray-300");
+      });
+      
+      paragraphs.forEach(p => {
+        if (p.classList.contains("dark-subtle")) {
+          p.classList.remove("dark-subtle");
+          p.classList.add("text-gray-600");
+        }
+        if (p.classList.contains("dark-text")) {
+          p.classList.remove("dark-text");
+          p.classList.add("text-black");
+        }
+      });
+      
+      headings.forEach(h => {
+        if (h.classList.contains("dark-text")) {
+          h.classList.remove("dark-text");
+          h.classList.add("text-black");
+        }
+      });
+      
+      // Restore other text
+      document.querySelectorAll('.dark-subtle').forEach(el => {
+        el.classList.remove("dark-subtle");
+        el.classList.add("text-gray-700");
+      });
+      
+      // Restore loading text
+      document.querySelector('#mapLoading p').classList.remove("dark-subtle");
+      document.querySelector('#mapLoading p').classList.add("text-gray-700");
+    }
+    
+    localStorage.setItem("naviga8_darkMode", isDark);
+  });
 }
-
-// Toggle dark mode
-darkModeToggle.addEventListener("click", () => {
-  document.body.classList.toggle("dark");
-  const isDark = document.body.classList.contains("dark");
-  darkModeIcon.textContent = isDark ? "☀️" : "🌙";
-  localStorage.setItem("naviga8_darkMode", isDark);
-});
 
 // ====== USER ID ======
 let userId = localStorage.getItem("naviga8_userId");
@@ -356,6 +487,9 @@ function loadRouteFromURL() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+    // Initialize dark mode
+    toggleDarkMode();
+    
     document.getElementById("getStartedBtn").addEventListener("click", () => {
         document.getElementById("map").scrollIntoView({ behavior: "smooth" });
     });
