@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="transition-colors">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -44,7 +44,7 @@
       <p class="text-xl sm:text-2xl font-bold font-sans px-4 sm:px-6 py-3">naviga8</p>
       <button
         id="getStartedBtn"
-        class="rounded-lg text-white text-sm sm:text-[18px] px-7 py-3 bg-green-800 hover:bg-green-700 transition-colors duration-300 font-bold font-serif"
+        class="rounded-lg text-white text-sm sm:text-[18px] px-7 py-3 bg-green-700 hover:bg-green-800 transition-colors font-bold font-serif"
       >
         Get started for free!
       </button>
@@ -69,19 +69,19 @@
       <div class="flex justify-center gap-4 mb-12 sm:mb-24 flex-wrap">
         <button
           id="exploreMapBtn"
-          class="bg-green-800 rounded-lg text-white text-sm sm:text-[18px] px-9 py-3 hover:bg-green-700 transition-colors duration-300 font-bold font-serif"
+          class="bg-green-700 rounded-lg text-white text-sm sm:text-[18px] px-9 py-3 hover:bg-green-800 transition-colors font-bold font-serif"
         >
           Explore App Below
         </button>
       </div>
 
       <!-- MAP CONTAINER -->
-      <div class="bg-gray-200 p-4 sm:p-8 rounded-lg max-w-[1200px] mx-auto mb-12 sm:mb-24 w-full">
+      <div class="bg-gray-200 p-4 sm:p-8 rounded-lg max-w-[1200px] mx-auto mb-12 sm:mb-24 w-full shadow-xl">
         <!-- VIEW SAVED ROUTES BUTTON -->
         <div class="flex justify-start mb-6 sm:mb-8">
           <button
             id="viewSavedRoutesBtn"
-            class="bg-green-800 rounded-lg text-white text-sm sm:text-[18px] px-7 py-3 hover:bg-green-700 transition-colors duration-300 font-bold font-serif"
+            class="bg-green-700 rounded-lg text-white text-sm sm:text-[18px] px-7 py-3 hover:bg-green-800 transition-colors font-bold font-serif"
           >
             View Saved Routes
           </button>
@@ -91,17 +91,19 @@
         <div class="flex gap-3 sm:gap-4 flex-wrap items-start">
           <div class="flex gap-2 flex-1 input-group">
             <div class="flex gap-2 flex-1 w-full">
-              📍<input
+              <span class="text-gray-700 text-xl">📍</span>
+              <input
                 id="origin"
                 placeholder="Origin"
-                class="flex-1 px-3 sm:px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm sm:text-base"
+                class="flex-1 px-3 sm:px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm sm:text-base"
               />
             </div>
             <div class="flex gap-2 flex-1 w-full">
-              📍<input
+              <span class="text-gray-700 text-xl">📍</span>
+              <input
                 id="destination"
                 placeholder="Destination"
-                class="flex-1 px-3 sm:px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm sm:text-base"
+                class="flex-1 px-3 sm:px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm sm:text-base"
               />
             </div>
           </div>
@@ -109,21 +111,21 @@
           <div class="flex gap-2 sm:gap-4 button-group w-full sm:w-auto">
             <button
               id="getRoutesBtn"
-              class="bg-green-800 rounded-lg text-white text-sm sm:text-[18px] px-6 py-3 hover:bg-green-700 transition-colors duration-300 font-bold font-serif flex-1"
+              class="bg-green-700 rounded-lg text-white text-sm sm:text-[18px] px-6 py-3 hover:bg-green-800 transition-colors font-bold font-serif flex-1"
             >
               Get Routes
             </button>
 
             <button
               id="saveRouteBtn"
-              class="bg-green-800 rounded-lg text-white text-sm sm:text-[18px] px-6 py-3 hover:bg-green-700 transition-colors duration-300 font-bold font-serif flex items-center gap-1 flex-1"
+              class="bg-green-700 rounded-lg text-white text-sm sm:text-[18px] px-6 py-3 hover:bg-green-800 transition-colors font-bold font-serif flex items-center gap-1 flex-1"
             >
               Save Route
             </button>
 
             <button
               id="clearBtn"
-              class="text-red-600 font-bold hover:underline px-5 py-3 rounded border border-red-600 text-sm sm:text-base flex-1"
+              class="text-red-600 font-bold hover:underline px-5 py-3 rounded-lg border border-red-600 hover:bg-red-50 text-sm sm:text-base flex-1 transition-colors"
             >
               🗑 Clear
             </button>
