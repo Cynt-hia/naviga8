@@ -148,13 +148,6 @@
         to { opacity: 1; transform: translateY(0); }
       }
 
-      .main-title {
-        color: #111827; /* gray-900 for light mode */
-      }
-      
-      .dark-mode .main-title {
-        color: #f9fafb; /* gray-50 for dark mode */
-      }
       
       /* Dark mode transition */
       .dark-transition {
@@ -188,16 +181,16 @@
 
     <!-- HERO SECTION -->
     <div class="text-center mt-8 sm:mt-12 px-4 w-full">
-     <h1 class="font-sans font-bold tracking-tighter leading-[1.1] max-w-[1100px] mx-auto text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[100px] fade-in main-title">
-        Find Your Way with Seamless <br class="hidden sm:block" />Navigation
-      </h1>
+    <h1 class="font-sans font-bold tracking-tighter leading-[1.1] max-w-[1100px] mx-auto text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[100px] fade-in text-gray-900 dark:text-white">
+       Find Your Way with Seamless <br class="hidden sm:block" />Navigation
+    </h1>
 
-      <p
+    <p
         class="text-gray-600 dark:text-gray-300 font-medium text-base sm:text-lg md:text-xl max-w-[800px] mx-auto mt-4 sm:mt-6 mb-6 sm:mb-8 fade-in"
-      >
+     >
         Discover locations, search for places, and get accurate directions with
         our intuitive map app. Simplify your journeys like never before.
-      </p>
+    </p>
 
       <!-- EXPLORE BUTTON -->
       <div class="flex justify-center gap-4 mb-12 sm:mb-24 flex-wrap fade-in">
@@ -733,6 +726,7 @@ async function loadGoogleMaps() {
 </script>
   </body>
 </html>
+
 
 
 
