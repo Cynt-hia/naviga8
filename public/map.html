@@ -190,7 +190,7 @@
 
     <!-- HERO SECTION -->
     <div class="text-center mt-8 sm:mt-12 px-4 w-full">
-  <h1 class="font-sans font-bold tracking-tighter leading-[1.1] max-w-[1100px] mx-auto text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[100px] fade-in main-title">
+  <h1 class="font-sans font-bold tracking-tighter leading-[1.1] max-w-[1100px] mx-auto text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[100px] fade-in" style="color: #111827;">
        Find Your Way with Seamless <br class="hidden sm:block" />Navigation
     </h1>
 
@@ -732,9 +732,30 @@ async function loadGoogleMaps() {
     script.defer = true;
     document.head.appendChild(script);
 }
+
+  // Fix H1 colors for dark mode
+function updateH1Color() {
+    const h1 = document.querySelector('h1');
+    const isDark = document.documentElement.classList.contains('dark-mode');
+    
+    if (isDark) {
+        h1.style.color = '#f9fafb'; // White in dark mode
+    } else {
+        h1.style.color = '#111827'; // Black in light mode
+    }
+}
+
+// Update on page load
+updateH1Color();
+
+// Update when dark mode toggles
+document.getElementById('darkModeToggle').addEventListener('click', () => {
+    setTimeout(updateH1Color, 100);
+});
 </script>
   </body>
 </html>
+
 
 
 
