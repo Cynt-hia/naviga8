@@ -161,6 +161,15 @@
       .dark-mode .dark\:text-gray-300 {
       color: #9ca3af !important;
       }
+
+      /* distance/duration card text in light mode */
+      :not(.dark-mode) .bg-white .text-gray-800 {
+        color: #1f2937 !important;
+      }
+      
+      :not(.dark-mode) .bg-white .text-gray-600 {
+        color: #4b5563 !important;
+      }
     </style>
   </head>
   <body class="bg-animated-grid min-h-screen flex flex-col items-center dark-transition">
@@ -751,5 +760,6 @@ async function loadGoogleMaps() {
 </script>
   </body>
 </html>
+
 
 
