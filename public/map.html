@@ -20,88 +20,83 @@
         --map-bg-light: #f3f4f6;
         --map-bg-dark: #030712;
       }
-
+      
       /* Light mode background animation */
       .bg-animated-grid {
-        background: linear-gradient(90deg, #f0f9ff 1px, transparent 1px) 0 0 /
-            40px 40px,
+        background: 
+          linear-gradient(90deg, #f0f9ff 1px, transparent 1px) 0 0 / 40px 40px,
           linear-gradient(#f0f9ff 1px, transparent 1px) 0 0 / 40px 40px,
           var(--bg-light);
         animation: gridMove 80s linear infinite;
       }
-
+      
       /* Dark mode background animation */
       .dark-mode .bg-animated-grid {
-        background: linear-gradient(
-              90deg,
-              rgba(30, 41, 59, 0.5) 1px,
-              transparent 1px
-            )
-            0 0 / 40px 40px,
-          linear-gradient(rgba(30, 41, 59, 0.5) 1px, transparent 1px) 0 0 / 40px
-            40px,
+        background: 
+          linear-gradient(90deg, rgba(30, 41, 59, 0.5) 1px, transparent 1px) 0 0 / 40px 40px,
+          linear-gradient(rgba(30, 41, 59, 0.5) 1px, transparent 1px) 0 0 / 40px 40px,
           var(--bg-dark);
         animation: gridMove 80s linear infinite;
       }
-
+      
       /* Dark mode classes */
       .dark-mode body {
         background-color: var(--bg-dark);
         color: var(--text-dark);
       }
-
+      
       .dark-mode .nav-light {
         background-color: var(--card-dark);
         border-bottom: 1px solid var(--border-dark);
       }
-
+      
       .dark-mode .card-light {
         background-color: var(--card-dark);
         border-color: var(--border-dark);
         color: var(--text-dark);
       }
-
+      
       .dark-mode input {
         background-color: var(--input-bg-dark);
         border-color: var(--border-dark);
         color: var(--text-dark);
       }
-
+      
       .dark-mode input::placeholder {
         color: #9ca3af;
       }
-
+      
       .dark-mode input:focus {
         border-color: #10b981;
         background-color: var(--input-bg-dark);
         color: var(--text-dark);
       }
-
+      
       .dark-mode #map {
         background-color: var(--map-bg-dark);
       }
-
+      
       .dark-mode #mapLoading {
         background-color: var(--map-bg-dark);
         color: var(--text-dark);
       }
-
+      
       .dark-mode .text-gray-600 {
         color: #9ca3af;
       }
-
+      
       .dark-mode .bg-green-50 {
         background-color: #064e3b;
       }
-
+      
       .dark-mode .border-green-200 {
         border-color: #047857;
       }
-
+      
       .dark-mode .text-green-800 {
         color: #a7f3d0;
       }
-
+      
       .dark-mode .bg-white {
         background-color: #1f2937 !important;
         color: var(--text-dark);
@@ -127,63 +122,43 @@
           min-width: 120px;
         }
       }
-
+      
       /* Loading spinner animation */
       .loading-spinner {
         animation: spin 1s linear infinite;
       }
-
+      
       @keyframes spin {
-        0% {
-          transform: rotate(0deg);
-        }
-        100% {
-          transform: rotate(360deg);
-        }
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
       }
-
+      
       @keyframes gridMove {
-        0% {
-          background-position: 0 0, 0 0;
-        }
-        100% {
-          background-position: 80px 80px, 80px 80px;
-        }
+        0% { background-position: 0 0, 0 0; }
+        100% { background-position: 80px 80px, 80px 80px; }
       }
-
+      
       /* Smooth transitions */
       .fade-in {
         animation: fadeIn 0.5s ease-in;
       }
-
+      
       @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(10px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
       }
 
+   
       /* Dark mode transition */
       .dark-transition {
-        transition: background-color 0.3s ease, color 0.3s ease,
-          border-color 0.3s ease;
+        transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
       }
     </style>
   </head>
-  <body
-    class="bg-animated-grid min-h-screen flex flex-col items-center dark-transition"
-  >
+  <body class="bg-animated-grid min-h-screen flex flex-col items-center dark-transition">
     <!-- NAVIGATION -->
-    <nav
-      class="w-full px-4 py-4 flex justify-between items-center nav-light dark-transition"
-    >
-      <p class="text-xl sm:text-2xl font-bold font-sans px-4 sm:px-6 py-3">
-        naviga8
-      </p>
+    <nav class="w-full px-4 py-4 flex justify-between items-center nav-light dark-transition">
+      <p class="text-xl sm:text-2xl font-bold font-sans px-4 sm:px-6 py-3">naviga8</p>
       <div class="flex gap-3 items-center">
         <!-- DARK MODE TOGGLE -->
         <button
@@ -194,7 +169,7 @@
           <span id="darkIcon" class="hidden">🌙</span>
           <span id="lightIcon">☀️</span>
         </button>
-
+        
         <button
           id="getStartedBtn"
           class="rounded-lg text-white text-sm sm:text-[18px] px-7 py-3 bg-green-700 hover:bg-green-800 transition-colors font-bold font-serif"
@@ -206,14 +181,11 @@
 
     <!-- HERO SECTION -->
     <div class="text-center mt-8 sm:mt-12 px-4 w-full">
-      <h1
-        class="font-sans font-bold tracking-tighter leading-[1.1] max-w-[1100px] mx-auto text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[100px] fade-in"
-        style="color: #111827"
-      >
-        Find Your Way with Seamless <br class="hidden sm:block" />Navigation
-      </h1>
+    <h1 class="font-sans font-bold tracking-tighter leading-[1.1] max-w-[1100px] mx-auto text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[100px] fade-in" style="color: #111827;">
+      Find Your Way with Seamless <br class="hidden sm:block" />Navigation
+     </h1>
 
-      <p
+     <p
         class="text-gray-600 dark:text-gray-300 font-medium text-base sm:text-lg md:text-xl max-w-[800px] mx-auto mt-4 sm:mt-6 mb-6 sm:mb-8 fade-in"
       >
         Discover locations, search for places, and get accurate directions with
@@ -231,9 +203,7 @@
       </div>
 
       <!-- MAP CONTAINER -->
-      <div
-        class="bg-white dark:bg-gray-800 p-4 sm:p-8 rounded-lg max-w-[1200px] mx-auto mb-12 sm:mb-24 w-full shadow-xl border border-gray-200 dark:border-gray-700 card-light dark-transition"
-      >
+      <div class="bg-white dark:bg-gray-800 p-4 sm:p-8 rounded-lg max-w-[1200px] mx-auto mb-12 sm:mb-24 w-full shadow-xl border border-gray-200 dark:border-gray-700 card-light dark-transition">
         <!-- TOP BUTTONS -->
         <div class="flex justify-between mb-6 sm:mb-8">
           <button
@@ -292,36 +262,17 @@
         </div>
 
         <!-- ROUTE DETAILS -->
-        <div
-          id="routeDetails"
-          class="hidden mt-6 p-4 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800 fade-in"
-        >
-          <h3 class="font-bold text-lg mb-3 text-green-800 dark:text-green-300">
-            Route Details
-          </h3>
+        <div id="routeDetails" class="hidden mt-6 p-4 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800 fade-in">
+          <h3 class="font-bold text-lg mb-3 text-green-800 dark:text-green-300">Route Details</h3>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div
-              class="text-center p-3 bg-white dark:bg-gray-700 rounded shadow dark-transition"
-            >
+            <div class="text-center p-3 bg-white dark:bg-gray-700 rounded shadow dark-transition">
               <div class="text-2xl mb-2">📏</div>
-              <p
-                class="font-bold text-gray-800 dark:text-white text-xl"
-                id="distanceText"
-              >
-                --
-              </p>
+              <p class="font-bold text-gray-800 dark:text-white text-xl" id="distanceText">--</p>
               <p class="text-sm text-gray-600 dark:text-gray-300">Distance</p>
             </div>
-            <div
-              class="text-center p-3 bg-white dark:bg-gray-700 rounded shadow dark-transition"
-            >
+            <div class="text-center p-3 bg-white dark:bg-gray-700 rounded shadow dark-transition">
               <div class="text-2xl mb-2">⏱️</div>
-              <p
-                class="font-bold text-gray-800 dark:text-white text-xl"
-                id="durationText"
-              >
-                --
-              </p>
+              <p class="font-bold text-gray-800 dark:text-white text-xl" id="durationText">--</p>
               <p class="text-sm text-gray-600 dark:text-gray-300">Duration</p>
             </div>
           </div>
@@ -333,20 +284,11 @@
           class="mt-6 sm:mt-8 w-full h-[300px] sm:h-[400px] md:h-[500px] bg-gray-100 dark:bg-gray-900 rounded-lg border border-gray-300 dark:border-gray-700 relative overflow-hidden"
         >
           <!-- LOADING SPINNER -->
-          <div
-            id="mapLoading"
-            class="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-900"
-          >
+          <div id="mapLoading" class="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-900">
             <div class="text-center">
-              <div
-                class="inline-block loading-spinner rounded-full h-12 w-12 border-4 border-green-600 dark:border-green-400 border-t-transparent"
-              ></div>
-              <p class="mt-4 text-gray-700 dark:text-gray-300 font-medium">
-                Loading map...
-              </p>
-              <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                Powered by Google Maps
-              </p>
+              <div class="inline-block loading-spinner rounded-full h-12 w-12 border-4 border-green-600 dark:border-green-400 border-t-transparent"></div>
+              <p class="mt-4 text-gray-700 dark:text-gray-300 font-medium">Loading map...</p>
+              <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Powered by Google Maps</p>
             </div>
           </div>
           <!-- ACTUAL MAP CONTAINER (HIDDEN INITIALLY) -->
@@ -355,534 +297,449 @@
       </div>
     </div>
 
-    <script>
-      // ====== DARK MODE ======
-      function initDarkMode() {
-        const isDark = localStorage.getItem("naviga8_darkMode") === "true";
+<script>
+// ====== DARK MODE ======
+function initDarkMode() {
+    const isDark = localStorage.getItem('naviga8_darkMode') === 'true';
+    if (isDark) {
+        document.documentElement.classList.add('dark-mode');
+        document.getElementById('darkIcon').classList.remove('hidden');
+        document.getElementById('lightIcon').classList.add('hidden');
+    }
+    
+    document.getElementById('darkModeToggle').addEventListener('click', () => {
+        const isDark = document.documentElement.classList.toggle('dark-mode');
+        localStorage.setItem('naviga8_darkMode', isDark);
+        
         if (isDark) {
-          document.documentElement.classList.add("dark-mode");
-          document.getElementById("darkIcon").classList.remove("hidden");
-          document.getElementById("lightIcon").classList.add("hidden");
+            document.getElementById('darkIcon').classList.remove('hidden');
+            document.getElementById('lightIcon').classList.add('hidden');
+        } else {
+            document.getElementById('darkIcon').classList.add('hidden');
+            document.getElementById('lightIcon').classList.remove('hidden');
         }
-
-        document
-          .getElementById("darkModeToggle")
-          .addEventListener("click", () => {
-            const isDark =
-              document.documentElement.classList.toggle("dark-mode");
-            localStorage.setItem("naviga8_darkMode", isDark);
-
-            if (isDark) {
-              document.getElementById("darkIcon").classList.remove("hidden");
-              document.getElementById("lightIcon").classList.add("hidden");
-            } else {
-              document.getElementById("darkIcon").classList.add("hidden");
-              document.getElementById("lightIcon").classList.remove("hidden");
-            }
-          });
-      }
-
-      // ====== USER ID ======
-      let userId = localStorage.getItem("naviga8_userId");
-
-      async function getOrCreateUserId() {
-        if (userId) return userId;
-        try {
-          const res = await fetch("/api/user-id");
-          if (!res.ok) throw new Error("Failed to get user ID");
-          const data = await res.json();
-          userId = data.userId;
-          localStorage.setItem("naviga8_userId", userId);
-          return userId;
-        } catch (err) {
-          console.error("User ID error:", err);
-          userId =
-            Math.random().toString(36).substr(2, 9) + Date.now().toString(36);
-          localStorage.setItem("naviga8_userId", userId);
-          return userId;
+        
+        // UPDATE MAP STYLES WHEN DARK MODE TOGGLES
+        if (map) {
+            map.setOptions({ styles: getMapStyles() });
         }
-      }
+        
+        // UPDATE H1 COLOR
+        updateH1Color();
+    });
+}
 
-      // ====== MAP FUNCTIONS ======
-      let map;
-      let directionsService;
-      let directionsRenderer;
-      let autocomplete1, autocomplete2;
+// ====== USER ID ======
+let userId = localStorage.getItem("naviga8_userId");
 
-      function saveInputsLocally() {
-        localStorage.setItem(
-          "lastOrigin",
-          document.getElementById("origin").value
-        );
-        localStorage.setItem(
-          "lastDestination",
-          document.getElementById("destination").value
-        );
-      }
+async function getOrCreateUserId() {
+    if (userId) return userId;
+    try {
+        const res = await fetch("/api/user-id");
+        if (!res.ok) throw new Error("Failed to get user ID");
+        const data = await res.json();
+        userId = data.userId;
+        localStorage.setItem("naviga8_userId", userId);
+        return userId;
+    } catch (err) {
+        console.error("User ID error:", err);
+        userId = Math.random().toString(36).substr(2, 9) + Date.now().toString(36);
+        localStorage.setItem("naviga8_userId", userId);
+        return userId;
+    }
+}
 
-      function loadInputs() {
-        const o = localStorage.getItem("lastOrigin");
-        const d = localStorage.getItem("lastDestination");
-        if (o) document.getElementById("origin").value = o;
-        if (d) document.getElementById("destination").value = d;
-      }
+// ====== MAP FUNCTIONS ======
+let map;
+let directionsService;
+let directionsRenderer;
+let autocomplete1, autocomplete2;
 
-      function initMap() {
-        if (map) return;
+function saveInputsLocally() {
+    localStorage.setItem("lastOrigin", document.getElementById("origin").value);
+    localStorage.setItem("lastDestination", document.getElementById("destination").value);
+}
 
-        const defaultCenter = { lat: 6.866687, lng: 7.411784 };
-        const savedCenter =
-          JSON.parse(sessionStorage.getItem("MAP_CENTER")) || defaultCenter;
-        const savedZoom = parseInt(sessionStorage.getItem("MAP_ZOOM")) || 17;
-        const savedType = sessionStorage.getItem("MAP_TYPE") || "roadmap";
+function loadInputs() {
+    const o = localStorage.getItem("lastOrigin");
+    const d = localStorage.getItem("lastDestination");
+    if (o) document.getElementById("origin").value = o;
+    if (d) document.getElementById("destination").value = d;
+}
 
-        // Create map in the mapContainer (not directly in #map)
-        const mapOptions = {
-          center: savedCenter,
-          zoom: savedZoom,
-          mapTypeId: savedType,
-          mapTypeControl: true,
-          streetViewControl: true,
-          fullscreenControl: true,
-          styles: getMapStyles(), // Apply dark mode styles to map
-        };
+function initMap() {
+    if (map) return;
 
-        map = new google.maps.Map(
-          document.getElementById("mapContainer"),
-          mapOptions
-        );
+    const defaultCenter = { lat: 6.866687, lng: 7.411784 };
+    const savedCenter = JSON.parse(sessionStorage.getItem("MAP_CENTER")) || defaultCenter;
+    const savedZoom = parseInt(sessionStorage.getItem("MAP_ZOOM")) || 17;
+    const savedType = sessionStorage.getItem("MAP_TYPE") || "roadmap";
 
-        new google.maps.Marker({
-          position: defaultCenter,
-          map: map,
-          title: "My School",
-          icon: {
-            url: "http://maps.google.com/mapfiles/ms/icons/green-dot.png",
-          },
+    const mapOptions = {
+        center: savedCenter,
+        zoom: savedZoom,
+        mapTypeId: savedType,
+        mapTypeControl: true,
+        streetViewControl: true,
+        fullscreenControl: true,
+        styles: getMapStyles()
+    };
+
+    map = new google.maps.Map(document.getElementById("mapContainer"), mapOptions);
+
+    new google.maps.Marker({
+        position: defaultCenter,
+        map: map,
+        title: "My School",
+        icon: {
+            url: "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
+        }
+    });
+
+    if (window.google.maps.places) {
+        const originInput = document.getElementById('origin');
+        const destInput = document.getElementById('destination');
+        
+        autocomplete1 = new google.maps.places.Autocomplete(originInput, {
+            types: ['geocode'],
+            componentRestrictions: { country: 'ng' }
         });
+        
+        autocomplete2 = new google.maps.places.Autocomplete(destInput, {
+            types: ['geocode'],
+            componentRestrictions: { country: 'ng' }
+        });
+    }
 
-        // Initialize autocomplete if Google Places is available
-        if (window.google.maps.places) {
-          const originInput = document.getElementById("origin");
-          const destInput = document.getElementById("destination");
-
-          autocomplete1 = new google.maps.places.Autocomplete(originInput, {
-            types: ["geocode"],
-            componentRestrictions: { country: "ng" },
-          });
-
-          autocomplete2 = new google.maps.places.Autocomplete(destInput, {
-            types: ["geocode"],
-            componentRestrictions: { country: "ng" },
-          });
-        }
-
-        if (!directionsRenderer) {
-          directionsService = new google.maps.DirectionsService();
-          directionsRenderer = new google.maps.DirectionsRenderer({
+    if (!directionsRenderer) {
+        directionsService = new google.maps.DirectionsService();
+        directionsRenderer = new google.maps.DirectionsRenderer({
             map: map,
             suppressMarkers: false,
             polylineOptions: {
-              strokeColor: "#10b981",
-              strokeWeight: 5,
-              strokeOpacity: 0.8,
-            },
-          });
-        }
-
-        loadInputs();
-
-        const returnOrigin = sessionStorage.getItem("returnOrigin");
-        const returnDestination = sessionStorage.getItem("returnDestination");
-        const hadRoute = sessionStorage.getItem("hadRoute");
-
-        if (hadRoute && returnOrigin && returnDestination) {
-          document.getElementById("origin").value = returnOrigin;
-          document.getElementById("destination").value = returnDestination;
-          calculateRoute(returnOrigin, returnDestination);
-          sessionStorage.removeItem("returnOrigin");
-          sessionStorage.removeItem("returnDestination");
-          sessionStorage.removeItem("hadRoute");
-        }
-
-        loadRouteFromURL();
-
-        // Hide loading spinner, show map
-        document.getElementById("mapLoading").classList.add("hidden");
-        document.getElementById("mapContainer").classList.remove("hidden");
-
-        map.addListener("center_changed", () => {
-          sessionStorage.setItem(
-            "MAP_CENTER",
-            JSON.stringify(map.getCenter().toJSON())
-          );
+                strokeColor: '#10b981',
+                strokeWeight: 5,
+                strokeOpacity: 0.8
+            }
         });
-        map.addListener("zoom_changed", () => {
-          sessionStorage.setItem("MAP_ZOOM", map.getZoom());
-        });
-        map.addListener("maptypeid_changed", () => {
-          sessionStorage.setItem("MAP_TYPE", map.getMapTypeId());
-        });
-      }
+    }
 
-      function getMapStyles() {
-        const isDark = document.documentElement.classList.contains("dark-mode");
+    loadInputs();
 
-        if (isDark) {
-          return [
+    const returnOrigin = sessionStorage.getItem("returnOrigin");
+    const returnDestination = sessionStorage.getItem("returnDestination");
+    const hadRoute = sessionStorage.getItem("hadRoute");
+
+    if (hadRoute && returnOrigin && returnDestination) {
+        document.getElementById("origin").value = returnOrigin;
+        document.getElementById("destination").value = returnDestination;
+        calculateRoute(returnOrigin, returnDestination);
+        sessionStorage.removeItem("returnOrigin");
+        sessionStorage.removeItem("returnDestination");
+        sessionStorage.removeItem("hadRoute");
+    }
+
+    loadRouteFromURL();
+
+    document.getElementById("mapLoading").classList.add("hidden");
+    document.getElementById("mapContainer").classList.remove("hidden");
+
+    map.addListener("center_changed", () => {
+        sessionStorage.setItem("MAP_CENTER", JSON.stringify(map.getCenter().toJSON()));
+    });
+    map.addListener("zoom_changed", () => {
+        sessionStorage.setItem("MAP_ZOOM", map.getZoom());
+    });
+    map.addListener("maptypeid_changed", () => {
+        sessionStorage.setItem("MAP_TYPE", map.getMapTypeId());
+    });
+}
+
+function getMapStyles() {
+    const isDark = document.documentElement.classList.contains('dark-mode');
+    
+    if (isDark) {
+        return [
             { elementType: "geometry", stylers: [{ color: "#242f3e" }] },
+            { elementType: "labels.text.stroke", stylers: [{ color: "#242f3e" }] },
+            { elementType: "labels.text.fill", stylers: [{ color: "#746855" }] },
             {
-              elementType: "labels.text.stroke",
-              stylers: [{ color: "#242f3e" }],
+                featureType: "administrative.locality",
+                elementType: "labels.text.fill",
+                stylers: [{ color: "#d59563" }]
             },
             {
-              elementType: "labels.text.fill",
-              stylers: [{ color: "#746855" }],
+                featureType: "poi",
+                elementType: "labels.text.fill",
+                stylers: [{ color: "#d59563" }]
             },
             {
-              featureType: "administrative.locality",
-              elementType: "labels.text.fill",
-              stylers: [{ color: "#d59563" }],
+                featureType: "poi.park",
+                elementType: "geometry",
+                stylers: [{ color: "#263c3f" }]
             },
             {
-              featureType: "poi",
-              elementType: "labels.text.fill",
-              stylers: [{ color: "#d59563" }],
+                featureType: "poi.park",
+                elementType: "labels.text.fill",
+                stylers: [{ color: "#6b9a76" }]
             },
             {
-              featureType: "poi.park",
-              elementType: "geometry",
-              stylers: [{ color: "#263c3f" }],
+                featureType: "road",
+                elementType: "geometry",
+                stylers: [{ color: "#38414e" }]
             },
             {
-              featureType: "poi.park",
-              elementType: "labels.text.fill",
-              stylers: [{ color: "#6b9a76" }],
+                featureType: "road",
+                elementType: "geometry.stroke",
+                stylers: [{ color: "#212a37" }]
             },
             {
-              featureType: "road",
-              elementType: "geometry",
-              stylers: [{ color: "#38414e" }],
+                featureType: "road",
+                elementType: "labels.text.fill",
+                stylers: [{ color: "#9ca5b3" }]
             },
             {
-              featureType: "road",
-              elementType: "geometry.stroke",
-              stylers: [{ color: "#212a37" }],
+                featureType: "road.highway",
+                elementType: "geometry",
+                stylers: [{ color: "#746855" }]
             },
             {
-              featureType: "road",
-              elementType: "labels.text.fill",
-              stylers: [{ color: "#9ca5b3" }],
+                featureType: "road.highway",
+                elementType: "geometry.stroke",
+                stylers: [{ color: "#1f2835" }]
             },
             {
-              featureType: "road.highway",
-              elementType: "geometry",
-              stylers: [{ color: "#746855" }],
+                featureType: "road.highway",
+                elementType: "labels.text.fill",
+                stylers: [{ color: "#f3d19c" }]
             },
             {
-              featureType: "road.highway",
-              elementType: "geometry.stroke",
-              stylers: [{ color: "#1f2835" }],
+                featureType: "transit",
+                elementType: "geometry",
+                stylers: [{ color: "#2f3948" }]
             },
             {
-              featureType: "road.highway",
-              elementType: "labels.text.fill",
-              stylers: [{ color: "#f3d19c" }],
+                featureType: "transit.station",
+                elementType: "labels.text.fill",
+                stylers: [{ color: "#d59563" }]
             },
             {
-              featureType: "transit",
-              elementType: "geometry",
-              stylers: [{ color: "#2f3948" }],
+                featureType: "water",
+                elementType: "geometry",
+                stylers: [{ color: "#17263c" }]
             },
             {
-              featureType: "transit.station",
-              elementType: "labels.text.fill",
-              stylers: [{ color: "#d59563" }],
+                featureType: "water",
+                elementType: "labels.text.fill",
+                stylers: [{ color: "#515c6d" }]
             },
             {
-              featureType: "water",
-              elementType: "geometry",
-              stylers: [{ color: "#17263c" }],
-            },
-            {
-              featureType: "water",
-              elementType: "labels.text.fill",
-              stylers: [{ color: "#515c6d" }],
-            },
-            {
-              featureType: "water",
-              elementType: "labels.text.stroke",
-              stylers: [{ color: "#17263c" }],
-            },
-          ];
-        }
+                featureType: "water",
+                elementType: "labels.text.stroke",
+                stylers: [{ color: "#17263c" }]
+            }
+        ];
+    }
+    
+    return [];
+}
 
-        return []; // Default light mode
-      }
+function calculateRoute(originVal, destinationVal) {
+    const origin = originVal || document.getElementById("origin").value;
+    const destination = destinationVal || document.getElementById("destination").value;
 
-      function calculateRoute(originVal, destinationVal) {
-        const origin = originVal || document.getElementById("origin").value;
-        const destination =
-          destinationVal || document.getElementById("destination").value;
+    if (!origin || !destination) {
+        alert("Please enter both origin and destination");
+        return;
+    }
+    
+    if (!directionsService || !directionsRenderer) {
+        alert("Map is not ready yet. Please wait...");
+        return;
+    }
 
-        if (!origin || !destination) {
-          alert("Please enter both origin and destination");
-          return;
-        }
+    const routeBtn = document.getElementById("getRoutesBtn");
+    const originalText = routeBtn.innerHTML;
+    routeBtn.innerHTML = "Calculating...";
+    routeBtn.disabled = true;
 
-        if (!directionsService || !directionsRenderer) {
-          alert("Map is not ready yet. Please wait...");
-          return;
-        }
-
-        // Show loading state on button
-        const routeBtn = document.getElementById("getRoutesBtn");
-        const originalText = routeBtn.innerHTML;
-        routeBtn.innerHTML = "Calculating...";
-        routeBtn.disabled = true;
-
-        directionsService.route(
-          {
+    directionsService.route(
+        {
             origin: origin,
             destination: destination,
             travelMode: "DRIVING",
-            provideRouteAlternatives: true,
-          },
-          (result, status) => {
-            // Restore button
+            provideRouteAlternatives: true
+        },
+        (result, status) => {
             routeBtn.disabled = false;
             routeBtn.innerHTML = originalText;
-
+            
             if (status === "OK") {
-              directionsRenderer.setDirections(result);
-              saveInputsLocally();
-              showRouteDetails(result);
+                directionsRenderer.setDirections(result);
+                saveInputsLocally();
+                showRouteDetails(result);
             } else {
-              alert(
-                "Route not found. Please check your addresses. Error: " + status
-              );
+                alert("Route not found. Please check your addresses. Error: " + status);
             }
-          }
-        );
-      }
-
-      function showRouteDetails(result) {
-        if (!result.routes || result.routes.length === 0) return;
-
-        const route = result.routes[0];
-        if (!route.legs || route.legs.length === 0) return;
-
-        const leg = route.legs[0];
-        document.getElementById("distanceText").textContent =
-          leg.distance?.text || "--";
-        document.getElementById("durationText").textContent =
-          leg.duration?.text || "--";
-
-        // Show the details section with animation
-        const detailsDiv = document.getElementById("routeDetails");
-        detailsDiv.classList.remove("hidden");
-        detailsDiv.classList.add("fade-in");
-      }
-
-      function loadRouteFromURL() {
-        const params = new URLSearchParams(window.location.search);
-        const o = params.get("origin");
-        const d = params.get("destination");
-        if (o && d) {
-          document.getElementById("origin").value = o;
-          document.getElementById("destination").value = d;
-          calculateRoute(o, d);
         }
-      }
+    );
+}
 
-      document.addEventListener("DOMContentLoaded", () => {
-        initDarkMode();
+function showRouteDetails(result) {
+    if (!result.routes || result.routes.length === 0) return;
+    
+    const route = result.routes[0];
+    if (!route.legs || route.legs.length === 0) return;
+    
+    const leg = route.legs[0];
+    document.getElementById("distanceText").textContent = leg.distance?.text || "--";
+    document.getElementById("durationText").textContent = leg.duration?.text || "--";
+    
+    const detailsDiv = document.getElementById("routeDetails");
+    detailsDiv.classList.remove("hidden");
+    detailsDiv.classList.add("fade-in");
+}
 
-        document
-          .getElementById("getStartedBtn")
-          .addEventListener("click", () => {
-            document
-              .getElementById("map")
-              .scrollIntoView({ behavior: "smooth" });
-          });
+function loadRouteFromURL() {
+    const params = new URLSearchParams(window.location.search);
+    const o = params.get("origin");
+    const d = params.get("destination");
+    if (o && d) {
+        document.getElementById("origin").value = o;
+        document.getElementById("destination").value = d;
+        calculateRoute(o, d);
+    }
+}
 
-        document
-          .getElementById("getRoutesBtn")
-          .addEventListener("click", () => calculateRoute());
+function updateH1Color() {
+    const h1 = document.querySelector('h1');
+    if (!h1) return;
+    
+    const isDark = document.documentElement.classList.contains('dark-mode');
+    
+    if (isDark) {
+        h1.style.color = '#f9fafb';
+    } else {
+        h1.style.color = '#111827';
+    }
+}
 
-        document
-          .getElementById("saveRouteBtn")
-          .addEventListener("click", async (e) => {
-            const btn = e.currentTarget;
-            const origin = document.getElementById("origin").value.trim();
-            const destination = document
-              .getElementById("destination")
-              .value.trim();
-            if (!origin || !destination)
-              return alert("Please enter both origin and destination!");
+document.addEventListener("DOMContentLoaded", () => {
+    initDarkMode();
+    updateH1Color();
+    
+    document.getElementById("getStartedBtn").addEventListener("click", () => {
+        document.getElementById("map").scrollIntoView({ behavior: "smooth" });
+    });
 
-            btn.disabled = true;
-            const originalText = btn.innerHTML;
-            btn.innerHTML = "Saving...";
+    document.getElementById("getRoutesBtn").addEventListener("click", () => calculateRoute());
 
-            try {
-              const currentUserId = await getOrCreateUserId();
-              const res = await fetch("/save-route", {
+    document.getElementById("saveRouteBtn").addEventListener("click", async (e) => {
+        const btn = e.currentTarget;
+        const origin = document.getElementById("origin").value.trim();
+        const destination = document.getElementById("destination").value.trim();
+        if (!origin || !destination)
+            return alert("Please enter both origin and destination!");
+
+        btn.disabled = true;
+        const originalText = btn.innerHTML;
+        btn.innerHTML = "Saving...";
+
+        try {
+            const currentUserId = await getOrCreateUserId();
+            const res = await fetch("/save-route", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                  userId: currentUserId,
-                  origin: { address: origin },
-                  destination: { address: destination },
+                    userId: currentUserId,
+                    origin: { address: origin },
+                    destination: { address: destination },
                 }),
-              });
+            });
 
-              if (res.ok) {
+            if (res.ok) {
                 btn.innerHTML = "Saved ✔";
                 setTimeout(() => {
-                  btn.disabled = false;
-                  btn.innerHTML = originalText;
+                    btn.disabled = false;
+                    btn.innerHTML = originalText;
                 }, 1500);
-              } else {
+            } else {
                 const err = await res.json().catch(() => ({}));
                 alert("Could not save: " + (err.msg || res.statusText));
                 btn.disabled = false;
                 btn.innerHTML = originalText;
-              }
-            } catch (err) {
-              console.error(err);
-              alert("Network error saving route");
-              btn.disabled = false;
-              btn.innerHTML = originalText;
             }
-          });
-
-        document
-          .getElementById("viewSavedRoutesBtn")
-          .addEventListener("click", () => {
-            sessionStorage.setItem(
-              "returnOrigin",
-              document.getElementById("origin").value
-            );
-            sessionStorage.setItem(
-              "returnDestination",
-              document.getElementById("destination").value
-            );
-            sessionStorage.setItem("hadRoute", "true");
-            window.location.href = "saved-routes.html";
-          });
-
-        document
-          .getElementById("exploreMapBtn")
-          .addEventListener("click", () => {
-            window.scrollTo({
-              top: document.getElementById("map").offsetTop - 20,
-              behavior: "smooth",
-            });
-          });
-
-        document.getElementById("clearBtn").addEventListener("click", () => {
-          document.getElementById("origin").value = "";
-          document.getElementById("destination").value = "";
-          if (directionsRenderer?.setDirections)
-            directionsRenderer.setDirections({ routes: [] });
-          localStorage.removeItem("lastOrigin");
-          localStorage.removeItem("lastDestination");
-          document.getElementById("routeDetails").classList.add("hidden");
-        });
-
-        // Enter key support for inputs
-        document.getElementById("origin").addEventListener("keypress", (e) => {
-          if (e.key === "Enter") calculateRoute();
-        });
-
-        document
-          .getElementById("destination")
-          .addEventListener("keypress", (e) => {
-            if (e.key === "Enter") calculateRoute();
-          });
-
-        loadGoogleMaps();
-      });
-
-      async function loadGoogleMaps() {
-        if (window.google && window.google.maps) {
-          initMap();
-          return;
+        } catch (err) {
+            console.error(err);
+            alert("Network error saving route");
+            btn.disabled = false;
+            btn.innerHTML = originalText;
         }
+    });
 
-        let key = sessionStorage.getItem("GOOGLE_MAPS_KEY");
-        if (!key) {
-          try {
+    document.getElementById("viewSavedRoutesBtn").addEventListener("click", () => {
+        sessionStorage.setItem("returnOrigin", document.getElementById("origin").value);
+        sessionStorage.setItem("returnDestination", document.getElementById("destination").value);
+        sessionStorage.setItem("hadRoute", "true");
+        window.location.href = "saved-routes.html";
+    });
+
+    document.getElementById("exploreMapBtn").addEventListener("click", () => {
+        window.scrollTo({
+            top: document.getElementById("map").offsetTop - 20,
+            behavior: "smooth"
+        });
+    });
+
+    document.getElementById("clearBtn").addEventListener("click", () => {
+        document.getElementById("origin").value = "";
+        document.getElementById("destination").value = "";
+        if (directionsRenderer?.setDirections)
+            directionsRenderer.setDirections({ routes: [] });
+        localStorage.removeItem("lastOrigin");
+        localStorage.removeItem("lastDestination");
+        document.getElementById("routeDetails").classList.add("hidden");
+    });
+
+    document.getElementById("origin").addEventListener("keypress", (e) => {
+        if (e.key === "Enter") calculateRoute();
+    });
+    
+    document.getElementById("destination").addEventListener("keypress", (e) => {
+        if (e.key === "Enter") calculateRoute();
+    });
+
+    loadGoogleMaps();
+});
+
+async function loadGoogleMaps() {
+    if (window.google && window.google.maps) {
+        initMap();
+        return;
+    }
+
+    let key = sessionStorage.getItem("GOOGLE_MAPS_KEY");
+    if (!key) {
+        try {
             const res = await fetch("/api/google-key");
             if (!res.ok) throw new Error("Failed to get key");
             const data = await res.json();
             key = data.key;
             sessionStorage.setItem("GOOGLE_MAPS_KEY", key);
-          } catch (err) {
+        } catch (err) {
             console.error("Google Maps load error:", err);
-            document.getElementById("mapLoading").innerHTML =
-              '<div class="text-center p-8"><p class="text-red-600 dark:text-red-400">Map failed to load. Please check your connection.</p></div>';
+            document.getElementById("mapLoading").innerHTML = 
+                '<div class="text-center p-8"><p class="text-red-600 dark:text-red-400">Map failed to load. Please check your connection.</p></div>';
             return;
-          }
         }
+    }
 
-        const script = document.createElement("script");
-        script.src = `https://maps.googleapis.com/maps/api/js?key=${key}&libraries=places&callback=initMap`;
-        script.async = true;
-        script.defer = true;
-        document.head.appendChild(script);
-      }
-      //  H1 colors for dark mode
-      function updateH1Color() {
-        const h1 = document.querySelector("h1");
-        const isDark = document.documentElement.classList.contains("dark-mode");
-
-        if (isDark) {
-          h1.style.color = "#f9fafb"; // White in dark mode
-        } else {
-          h1.style.color = "#111827"; // Black in light mode
-        }
-      }
-
-      // Update on page load
-      updateH1Color();
-
-      // Update when dark mode toggles
-      document
-        .getElementById("darkModeToggle")
-        .addEventListener("click", () => {
-          setTimeout(updateH1Color, 100);
-        });
-
-      // ====== H1 COLOR FOR DARK MODE ======
-      function updateH1Color() {
-        const h1 = document.querySelector("h1");
-        if (!h1) return;
-
-        const isDark = document.documentElement.classList.contains("dark-mode");
-
-        if (isDark) {
-          h1.style.color = "#f9fafb"; // White in dark mode
-        } else {
-          h1.style.color = "#111827"; // Dark gray in light mode
-        }
-      }
-
-      // Update on page load
-      document.addEventListener("DOMContentLoaded", updateH1Color);
-
-      // Update when dark mode toggles
-      const darkModeToggle = document.getElementById("darkModeToggle");
-      if (darkModeToggle) {
-        darkModeToggle.addEventListener("click", () => {
-          setTimeout(updateH1Color, 100);
-        });
-      }
-
-      // Update immediately if dark mode is already active on load
-      setTimeout(updateH1Color, 500);
-    </script>
+    const script = document.createElement("script");
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${key}&libraries=places&callback=initMap`;
+    script.async = true;
+    script.defer = true;
+    document.head.appendChild(script);
+}
+</script>
   </body>
 </html>
-
