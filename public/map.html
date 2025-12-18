@@ -318,14 +318,6 @@ function initDarkMode() {
             document.getElementById('darkIcon').classList.add('hidden');
             document.getElementById('lightIcon').classList.remove('hidden');
         }
-        
-        // UPDATE MAP STYLES WHEN DARK MODE TOGGLES
-        if (map) {
-            map.setOptions({ styles: getMapStyles() });
-        }
-        
-        // UPDATE H1 COLOR
-        updateH1Color();
     });
 }
 
@@ -375,6 +367,7 @@ function initMap() {
     const savedZoom = parseInt(sessionStorage.getItem("MAP_ZOOM")) || 17;
     const savedType = sessionStorage.getItem("MAP_TYPE") || "roadmap";
 
+    // Create map in the mapContainer (not directly in #map)
     const mapOptions = {
         center: savedCenter,
         zoom: savedZoom,
@@ -382,7 +375,7 @@ function initMap() {
         mapTypeControl: true,
         streetViewControl: true,
         fullscreenControl: true,
-        styles: getMapStyles()
+        styles: getMapStyles() // Apply dark mode styles to map
     };
 
     map = new google.maps.Map(document.getElementById("mapContainer"), mapOptions);
@@ -396,6 +389,7 @@ function initMap() {
         }
     });
 
+    // Initialize autocomplete if Google Places is available
     if (window.google.maps.places) {
         const originInput = document.getElementById('origin');
         const destInput = document.getElementById('destination');
@@ -441,6 +435,7 @@ function initMap() {
 
     loadRouteFromURL();
 
+    // Hide loading spinner, show map
     document.getElementById("mapLoading").classList.add("hidden");
     document.getElementById("mapContainer").classList.remove("hidden");
 
@@ -541,7 +536,7 @@ function getMapStyles() {
         ];
     }
     
-    return [];
+    return []; // Default light mode
 }
 
 function calculateRoute(originVal, destinationVal) {
@@ -558,6 +553,7 @@ function calculateRoute(originVal, destinationVal) {
         return;
     }
 
+    // Show loading state on button
     const routeBtn = document.getElementById("getRoutesBtn");
     const originalText = routeBtn.innerHTML;
     routeBtn.innerHTML = "Calculating...";
@@ -571,6 +567,7 @@ function calculateRoute(originVal, destinationVal) {
             provideRouteAlternatives: true
         },
         (result, status) => {
+            // Restore button
             routeBtn.disabled = false;
             routeBtn.innerHTML = originalText;
             
@@ -595,6 +592,7 @@ function showRouteDetails(result) {
     document.getElementById("distanceText").textContent = leg.distance?.text || "--";
     document.getElementById("durationText").textContent = leg.duration?.text || "--";
     
+    // Show the details section with animation
     const detailsDiv = document.getElementById("routeDetails");
     detailsDiv.classList.remove("hidden");
     detailsDiv.classList.add("fade-in");
@@ -611,22 +609,8 @@ function loadRouteFromURL() {
     }
 }
 
-function updateH1Color() {
-    const h1 = document.querySelector('h1');
-    if (!h1) return;
-    
-    const isDark = document.documentElement.classList.contains('dark-mode');
-    
-    if (isDark) {
-        h1.style.color = '#f9fafb';
-    } else {
-        h1.style.color = '#111827';
-    }
-}
-
 document.addEventListener("DOMContentLoaded", () => {
     initDarkMode();
-    updateH1Color();
     
     document.getElementById("getStartedBtn").addEventListener("click", () => {
         document.getElementById("map").scrollIntoView({ behavior: "smooth" });
@@ -701,6 +685,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("routeDetails").classList.add("hidden");
     });
 
+    // Enter key support for inputs
     document.getElementById("origin").addEventListener("keypress", (e) => {
         if (e.key === "Enter") calculateRoute();
     });
@@ -740,6 +725,54 @@ async function loadGoogleMaps() {
     script.defer = true;
     document.head.appendChild(script);
 }
+  // Fix H1 colors for dark mode
+function updateH1Color() {
+    const h1 = document.querySelector('h1');
+    const isDark = document.documentElement.classList.contains('dark-mode');
+    
+    if (isDark) {
+        h1.style.color = '#f9fafb'; // White in dark mode
+    } else {
+        h1.style.color = '#111827'; // Black in light mode
+    }
+}
+
+  // Update on page load
+updateH1Color();
+
+ // Update when dark mode toggles
+document.getElementById('darkModeToggle').addEventListener('click', () => {
+setTimeout(updateH1Color, 100);
+});
+
+  // ====== FIX H1 COLOR FOR DARK MODE ======
+function updateH1Color() {
+    const h1 = document.querySelector('h1');
+    if (!h1) return;
+    
+    const isDark = document.documentElement.classList.contains('dark-mode');
+    
+    if (isDark) {
+        h1.style.color = '#f9fafb'; // White in dark mode
+    } else {
+        h1.style.color = '#111827'; // Dark gray in light mode
+    }
+}
+
+// Update on page load
+document.addEventListener('DOMContentLoaded', updateH1Color);
+
+// Also update when dark mode toggles (add this to your existing dark mode toggle)
+const darkModeToggle = document.getElementById('darkModeToggle');
+if (darkModeToggle) {
+    darkModeToggle.addEventListener('click', () => {
+        setTimeout(updateH1Color, 100);
+    });
+}
+
+// Also update immediately if dark mode is already active on load
+setTimeout(updateH1Color, 500);
 </script>
   </body>
 </html>
+
