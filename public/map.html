@@ -833,7 +833,7 @@
         script.defer = true;
         document.head.appendChild(script);
       }
-      // Fix H1 colors for dark mode
+      //  H1 colors for dark mode
       function updateH1Color() {
         const h1 = document.querySelector("h1");
         const isDark = document.documentElement.classList.contains("dark-mode");
@@ -855,7 +855,7 @@
           setTimeout(updateH1Color, 100);
         });
 
-      // ====== FIX H1 COLOR FOR DARK MODE ======
+      // ====== H1 COLOR FOR DARK MODE ======
       function updateH1Color() {
         const h1 = document.querySelector("h1");
         if (!h1) return;
@@ -872,7 +872,7 @@
       // Update on page load
       document.addEventListener("DOMContentLoaded", updateH1Color);
 
-      // Also update when dark mode toggles (add this to your existing dark mode toggle)
+      // Update when dark mode toggles
       const darkModeToggle = document.getElementById("darkModeToggle");
       if (darkModeToggle) {
         darkModeToggle.addEventListener("click", () => {
@@ -880,8 +880,9 @@
         });
       }
 
-      // Also update immediately if dark mode is already active on load
+      // Update immediately if dark mode is already active on load
       setTimeout(updateH1Color, 500);
     </script>
   </body>
 </html>
+
